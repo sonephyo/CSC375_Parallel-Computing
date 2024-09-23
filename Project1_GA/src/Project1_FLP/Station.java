@@ -12,8 +12,8 @@ public class Station {
         this.station_type = Station_Type.values()[random_station_type];
     }
 
-    public Station_Type getStation_type() {
-        return station_type;
+    public int getStation_type_val() {
+        return this.station_type.getValue();
     }
 
 
