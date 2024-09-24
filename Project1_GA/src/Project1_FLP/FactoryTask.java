@@ -14,6 +14,8 @@ public class FactoryTask implements Callable<Factory>{
     public Factory call() throws Exception {
         Factory factory = new Factory(numOfStations);
         factory.populate_factory();
+        double result = factory.evaluate_affinity();
+
         return factory;
     }
 }

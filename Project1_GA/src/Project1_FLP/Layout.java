@@ -24,7 +24,6 @@ public class Layout{
         try {
             for (Future<Factory> factoryFuture : futures) {
                 Factory factory = factoryFuture.get();
-                System.out.println(factory);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

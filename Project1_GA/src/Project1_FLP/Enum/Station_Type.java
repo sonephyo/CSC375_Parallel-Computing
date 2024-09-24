@@ -19,4 +19,20 @@ public enum Station_Type {
         return this.value;
     }
 
+    public static Station_Type getStation_Type(int value) {
+        return switch (value) {
+            case 1 -> TypeA;
+            case 2 -> TypeB;
+            case 3 -> TypeC;
+            case 4 -> TypeD;
+            default -> null;
+        };
+
+    }
+
+    public static int getStationNumber() {
+        return Station_Type.values().length;
+    }
+
+
 }
