@@ -153,7 +153,7 @@ public class Factory{
         double deltaXSquared = deltaX * deltaX * first_cluster_station_len * first_cluster_station_len;
         double deltaYSquared = deltaY * deltaY * second_cluster_station_len * first_cluster_station_len;
 
-        return Math.sqrt(deltaXSquared + deltaYSquared);
+        return 1/Math.sqrt(deltaXSquared + deltaYSquared);
     }
 
     private double[] get_mid_point_cluster(ClusterStation cluster_station) {
