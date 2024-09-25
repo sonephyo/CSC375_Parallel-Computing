@@ -6,11 +6,14 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Factory{
+    private final String id;
     private int[][] spots;
     private final int num_of_stations;
+    private double affinity_value;
 
 
     public Factory(int numOfStations) {
+        this.id = UUID.randomUUID().toString();
         int randomRowSize = (int) Math.ceil(numOfStations / 2.0);
         int randomColSize = (int) Math.ceil(numOfStations / 2.0);
         this.spots = new int[randomRowSize][randomColSize];
@@ -127,7 +130,7 @@ public class Factory{
                 }
             }
         }
-        System.out.println(result);
+        this.affinity_value = result;
         return result;
     }
 
@@ -221,6 +224,12 @@ public class Factory{
         visit_connected_stations(matrix, row-1, col, clusterStation);
     }
 
+
+    public Factory combineFactory(Factory factory2) {
+        System.out.println(this.id + " and " + factory2.id + " are combined");
+        return null;
+    }
+
     @Override
     public String toString() {
 
@@ -236,6 +245,9 @@ public class Factory{
                 '}';
     }
 
+    public double getAffinity_value() {
+        return affinity_value;
+    }
 
     public static void main(String[] args) {
 
