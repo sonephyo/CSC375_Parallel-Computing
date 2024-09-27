@@ -10,6 +10,7 @@ public class Factory{
     private int[][] spots;
     private final int num_of_stations;
     private double affinity_value;
+    private HashMap<Station_Type, List<ClusterStation>> clusterStation_HashMap = new HashMap<>();
 
 
     public Factory(int numOfStations) {
@@ -19,6 +20,15 @@ public class Factory{
         this.spots = new int[randomRowSize][randomColSize];
         this.num_of_stations = numOfStations;
     }
+
+    public Factory (Factory factory_to_clone) {
+        this.id = UUID.randomUUID().toString();
+        this.spots = factory_to_clone.spots;
+        this.num_of_stations = factory_to_clone.num_of_stations;
+        this.affinity_value = factory_to_clone.affinity_value;
+        this.clusterStation_HashMap = factory_to_clone.clusterStation_HashMap;
+    }
+
 
     public void populate_factory() {
 
@@ -91,10 +101,6 @@ public class Factory{
 
     }
 
-    /**
-     *
-     * @return
-     */
     public double evaluate_affinity() {
 
         HashMap<Station_Type, List<ClusterStation>> clusterStation_HashMap = this.create_cluster(this.spots);
@@ -177,7 +183,7 @@ public class Factory{
                 .map(int[]::clone) // Clone each row
                 .toArray(int[][]::new);
 
-        HashMap<Station_Type, List<ClusterStation>> clusterStation_HashMap = new HashMap<>();
+
 
         for (int i = 0; i < copiedMatrix.length; i++) {
             for (int j = 0; j < copiedMatrix[i].length; j++) {
@@ -193,14 +199,6 @@ public class Factory{
                 }
             }
         }
-
-//        for (Station_Type station_type : clusterStation_HashMap.keySet()) {
-//            List<ClusterStation> clusterStations = clusterStation_HashMap.get(station_type);
-//            for (ClusterStation clusterStation : clusterStations) {
-//                System.out.println(clusterStation);
-//            }
-//        }
-
 
         return clusterStation_HashMap;
 
