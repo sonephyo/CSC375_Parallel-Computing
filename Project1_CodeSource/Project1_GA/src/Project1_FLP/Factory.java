@@ -223,24 +223,27 @@ public class Factory{
     }
 
 
-    public Factory combineFactory(Factory factory2) {
+    public Factory crossover_Operation(Factory factory2) {
         System.out.println(this.id + " and " + factory2.id + " are combined");
+        return null;
+    }
+
+    public Factory mutation(Factory factory) {
+
         return null;
     }
 
     @Override
     public String toString() {
 
-        System.out.println("-----");
-        for (int[] spot : spots) {
-            System.out.println(Arrays.toString(spot));
-        }
-        System.out.println("-----");
+//        System.out.println("-----");
+//        for (int[] spot : spots) {
+//            System.out.println(Arrays.toString(spot));
+//        }
+//        System.out.println("-----");
 
 
-        return "Factory{" +
-                "spots=" +
-                '}';
+        return "Factory ID: " + this.id;
     }
 
     public double getAffinity_value() {

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a6d30bcf-b7db-42f5-9743-0706643f3cd5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Main.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2meubvbafczMx7TlpKo6s54jHn4" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/sonephyo/Documents/Fall 2024/CSC375/Code/Project1_CodeSource/Project1_GA",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Project1_FLP.Main" />
+      <module name="Project1_GA" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a6d30bcf-b7db-42f5-9743-0706643f3cd5" name="Changes" comment="" />
+      <created>1727449437379</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1727449437379</updated>
+      <workItem from="1727449439239" duration="13673000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
+          <line>71</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>161</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+      </breakpoints>
+      <breakpoints-defaults>
+        <breakpoint suspend="THREAD" type="java-line" />
+      </breakpoints-defaults>
+    </breakpoint-manager>
+  </component>
+</project>
