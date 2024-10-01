@@ -5,7 +5,7 @@ import Project1_FLP.Enum.Station_Type;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Factory{
+public class Factory implements  Comparable<Factory>{
     private final String id;
     private int[][] spots;
     private final int num_of_stations;
@@ -221,33 +221,60 @@ public class Factory{
         visit_connected_stations(matrix, row, col-1, clusterStation);
         visit_connected_stations(matrix, row-1, col, clusterStation);
     }
+    public void doMutation() {
+        Set<Station_Type> allStations = this.clusterStation_HashMap.keySet();
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        int mutation_number = random.nextInt(3);
+        if (mutation_number == 0) {
+            List<ClusterStation> clusterStationList1 = clusterStation_HashMap.get(Station_Type.getStation_Type(random.nextInt(1,5)));
+            List<ClusterStation> clusterStationList2 = clusterStation_HashMap.get(Station_Type.getStation_Type(random.nextInt(1,5)));
+            randomSwap(clusterStationList1, clusterStationList2);
+        }
 
 
-    public Factory crossover_Operation(Factory factory2) {
-        System.out.println(this.id + " and " + factory2.id + " are combined");
-        return null;
     }
 
-    public Factory mutation(Factory factory) {
+    public void randomSwap(List<ClusterStation> clusterStationList1, List<ClusterStation> clusterStationList2){
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        for (int i = 0; i < random.nextInt(10); i++) {
+            ClusterStation selectedClusterStation1 = clusterStationList1.get(random.nextInt(clusterStationList1.size()));
+            ClusterStation selectedClusterStation2 = clusterStationList2.get(random.nextInt(clusterStationList2.size()));
 
-        return null;
+            for (int[] coordinate: selectedClusterStation1.getCoordinates()) {
+                spots[coordinate[0]][coordinate[1]] = 0;
+            }
+            for (int[] coordinate: selectedClusterStation2.getCoordinates()) {
+                spots[coordinate[0]][coordinate[1]] = 0;
+            }
+
+            int[] clusterStation1MainPoint = selectedClusterStation1.getCoordinates().getFirst();
+            int[] clusterStation2MainPoint = selectedClusterStation2.getCoordinates().getFirst(); // The selected element
+            Station_Type clusterStation1Type = selectedClusterStation1.getStation_type();
+            Station_Type clusterStation2Type = selectedClusterStation2.getStation_type();
+
+            int valueOfStation = clusterStation1Type.getValue();
+        }
     }
 
-    @Override
-    public String toString() {
+    public void doCrossover(Factory other_factory) {
 
-//        System.out.println("-----");
-//        for (int[] spot : spots) {
-//            System.out.println(Arrays.toString(spot));
-//        }
-//        System.out.println("-----");
+    }
 
+    public void setSpots(int[][] spots) {
+        this.spots = spots;
+    }
 
-        return "Factory ID: " + this.id;
+    public int[][] getSpots() {
+        return spots;
     }
 
     public double getAffinity_value() {
         return affinity_value;
+    }
+
+    @Override
+    public int compareTo(Factory other) {
+        return Double.compare(this.getAffinity_value(), other.getAffinity_value());
     }
 
     public static void main(String[] args) {
@@ -267,4 +294,6 @@ public class Factory{
         factory1.evaluate_affinity();
 
     }
+
+
 }

@@ -2,21 +2,23 @@
 
 package Project1_FLP;
 
+import Project1_FLP.Callable_Tasks.FactoryTask;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Layout{
 
     private Factory maxValueFactory = null;
     private final int num_of_threads;
 
-    private int futureFactories_size;
-    private final List<Future<Factory>> future_Factories = new ArrayList<>();
+    private int count_cFactories;
+    private List<Future<Factory>> future_Factories = new ArrayList<>();
+    private List<Factory> current_Factories = new ArrayList<>();
     private final AtomicInteger atomicInteger = new AtomicInteger(0);
 
     public Layout(int num_of_threads) {
@@ -34,28 +36,26 @@ public class Layout{
         ExecutorService executorService = Executors.newFixedThreadPool(num_of_threads);
 
         try {
+            List<Callable<Factory>> factoryTasks = new ArrayList<>();
+
             for (int i = 0; i < num_of_threads; i++) {
                 System.out.println("FactoryTask: " + i);
-                Callable<Factory> factoryTask = new FactoryTask(num_of_stations);
-                Future<Factory> factoryFuture = executorService.submit(factoryTask);
-                future_Factories.add(factoryFuture);
+                factoryTasks.add(new FactoryTask(num_of_stations));
             }
 
-            for (Future<Factory> future : future_Factories) {
-                if (future.isDone() && maxValueFactory != null) {
-                    if (maxValueFactory.getAffinity_value() < future.get().getAffinity_value()) {
-                        maxValueFactory = future.get();
-                    }
-                } else {
-                    maxValueFactory = future.get();
-                }
-            }
+            future_Factories = executorService.invokeAll(factoryTasks);
+
+            current_Factories = new ArrayList<>();
+
+            update_current_Factories(future_Factories);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             executorService.shutdown();
         }
+
+        current_Factories.sort(Collections.reverseOrder());
 
         doGAOperations();
 
@@ -69,11 +69,12 @@ public class Layout{
      */
     public synchronized Factory pickRandom() throws ExecutionException, InterruptedException {
 
-        if (future_Factories.size() <= 0 ) return null;
+        System.out.println("size in pickRandom: " + current_Factories.size());
+        if (current_Factories.size() <= 0 ) return null;
 
-        int randomIndex = new Random().nextInt(future_Factories.size());
-        Factory selectedFactory = future_Factories.get(randomIndex).get();
-        future_Factories.remove(randomIndex);
+        int randomIndex = new Random().nextInt(current_Factories.size());
+        Factory selectedFactory = current_Factories.get(randomIndex);
+        current_Factories.remove(randomIndex);
 
         return selectedFactory;
     }
@@ -85,43 +86,63 @@ public class Layout{
         ExecutorService executorServiceForGA = Executors.newFixedThreadPool(num_of_threads);
         try {
 
-            futureFactories_size = future_Factories.size();
+            count_cFactories = current_Factories.size();
+            List<Callable<Factory>> tasks = new ArrayList<>();
             int index = 0;
 
+            List<Factory> copied_Factories = new ArrayList<>(current_Factories);
 
-            while (index < futureFactories_size) {
+
+            while (index < count_cFactories) {
 
                 int gaOperationRandom = ThreadLocalRandom.current().nextInt(2);
 
-                executorServiceForGA.submit(() -> {
+                Callable<Factory> task = () -> {
                     Factory factory = null;
-                    System.out.println("atomicValue: " + atomicInteger.incrementAndGet());
+//                    System.out.println("atomicValue: " + atomicInteger.incrementAndGet());
                     if (gaOperationRandom == 0) {
                         try {
                             System.out.println("mutation going");
-                            factory = doMutation(pickRandom());
+                            factory = requestMutationOperation(pickRandom());
                         } catch (ExecutionException | InterruptedException e) {
                             throw new RuntimeException(e);
                         }
                     }
+
                     if (gaOperationRandom == 1) {
                         try {
                             System.out.println("crossover going");
-                            factory = doCrossOver(pickRandom(), pickRandom());
+                            factory = requestCrossOverOperation(pickRandom(), pickRandom());
 
                         } catch (ExecutionException | InterruptedException e) {
+                            System.out.println("There was error in the thread");
                             throw new RuntimeException(e);
                         }
                     }
-                });
+                    return factory;
+                };
 
-
+                tasks.add(task);
                 if (gaOperationRandom == 0) {
                     index++;
                 }
                 if (gaOperationRandom == 1) {
                     index += 2;
                 }
+            }
+            future_Factories = new ArrayList<>();
+            future_Factories = executorServiceForGA.invokeAll(tasks);
+
+            current_Factories = new ArrayList<>(copied_Factories);
+
+            update_current_Factories(future_Factories);
+
+            doSelection();
+
+            System.out.println("-----");
+            current_Factories.sort(Collections.reverseOrder());
+            for (Factory factory : current_Factories) {
+                System.out.println(factory.getAffinity_value());
             }
 
         } catch (Exception e) {
@@ -131,19 +152,41 @@ public class Layout{
         }
     }
 
-    private Factory doCrossOver(Factory factory1, Factory factory2) {
-        if (factory1 == null || factory2 == null) {
-            return null;
+    private void doSelection() {
+        if (current_Factories.size() > 64) {
+            current_Factories = current_Factories.subList(0,64);
         }
+    }
 
+    private void update_current_Factories(List<Future<Factory>> future_Factories) {
+        for (Future<Factory> future : future_Factories) {
+            try {
+                Factory factory = future.get();
+                current_Factories.add(factory);
+            } catch (ExecutionException | InterruptedException e) {
+                System.err.println("Task encountered an exception: " + e.getCause());
+            }
+        }
+    }
 
-        System.out.println("crossover: " + factory1.getAffinity_value()  + " " + factory2.getAffinity_value());
+    private Factory requestCrossOverOperation(Factory factory1, Factory factory2) {
+        if (factory1 != null && factory2 == null) {
+            return requestMutationOperation(factory1);
+        }
+        if (factory1 == null) {
+            throw new NullPointerException();
+        }
+        factory1.doCrossover(factory2);
+        factory2.setSpots(factory1.getSpots());
         return factory2;
     }
 
-    private Factory doMutation(Factory factory) {
-        System.out.println("mutation: " + factory.getAffinity_value());
-        return null;
+    private Factory requestMutationOperation(Factory factory) {
+        if (factory == null) {
+            return null;
+        }
+        factory.doMutation();
+        return factory;
     }
 
 }

@@ -1,4 +1,6 @@
-package Project1_FLP;
+package Project1_FLP.Callable_Tasks;
+
+import Project1_FLP.Factory;
 
 import java.util.concurrent.Callable;
 
