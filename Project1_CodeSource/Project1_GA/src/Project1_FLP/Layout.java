@@ -4,10 +4,7 @@ package Project1_FLP;
 
 import Project1_FLP.Callable_Tasks.FactoryTask;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -31,7 +28,7 @@ public class Layout{
      * Note: The factories are created in parallel, and need to be put in Future class first
      * @param num_of_stations - station that all factories should have. Number of station influences the factory size.
      */
-    public void evaluate(int num_of_stations) {
+    public void evaluate(int num_of_stations, int count_of_GAOperations) {
 
         ExecutorService executorService = Executors.newFixedThreadPool(num_of_threads);
 
@@ -57,8 +54,15 @@ public class Layout{
 
         current_Factories.sort(Collections.reverseOrder());
 
-        doGAOperations();
+        for (int i = 0; i < count_of_GAOperations; i++) {
+            doGAOperations();
+        }
 
+        current_Factories.getFirst().evaluate_affinity();
+        System.out.println("----  " + current_Factories.getFirst().getAffinity_value());
+        for (int[] list: current_Factories.getFirst().getSpots()) {
+            System.out.println(Arrays.toString(list));
+        }
     }
 
     /**
@@ -70,7 +74,7 @@ public class Layout{
     public synchronized Factory pickRandom() throws ExecutionException, InterruptedException {
 
         System.out.println("size in pickRandom: " + current_Factories.size());
-        if (current_Factories.size() <= 0 ) return null;
+        if (current_Factories.isEmpty()) return null;
 
         int randomIndex = new Random().nextInt(current_Factories.size());
         Factory selectedFactory = current_Factories.get(randomIndex);
@@ -95,7 +99,8 @@ public class Layout{
 
             while (index < count_cFactories) {
 
-                int gaOperationRandom = ThreadLocalRandom.current().nextInt(2);
+//                int gaOperationRandom = ThreadLocalRandom.current().nextInt(2);
+                int gaOperationRandom = 0;
 
                 Callable<Factory> task = () -> {
                     Factory factory = null;
@@ -141,8 +146,11 @@ public class Layout{
 
             System.out.println("-----");
             current_Factories.sort(Collections.reverseOrder());
-            for (Factory factory : current_Factories) {
-                System.out.println(factory.getAffinity_value());
+            for (int a = 0; a< 5; a++) {
+                if (current_Factories.size() > a) {
+                    System.out.println(current_Factories.get(a).getAffinity_value());
+
+                }
             }
 
         } catch (Exception e) {
@@ -154,7 +162,7 @@ public class Layout{
 
     private void doSelection() {
         if (current_Factories.size() > 64) {
-            current_Factories = current_Factories.subList(0,64);
+            current_Factories = current_Factories.subList(0,10);
         }
     }
 
@@ -185,8 +193,9 @@ public class Layout{
         if (factory == null) {
             return null;
         }
-        factory.doMutation();
-        return factory;
+
+        Factory copyFactory = new Factory(factory);
+        return copyFactory.doMutation();
     }
 
 }

@@ -54,44 +54,14 @@ public class Factory implements  Comparable<Factory>{
             try {
 
                 int value = station.getStation_type_val();
-
-
                 if (value == 1) {
-                    if (spots[row][col] == 0 && spots[row - 1][col] == 0 && spots[row][col + 1] == 0 && spots[row - 1][col + 1] == 0) {
-                        spots[row][col] = station.getStation_type_val();
-                        spots[row - 1][col] = station.getStation_type_val();
-                        spots[row][col + 1] = station.getStation_type_val();
-                        spots[row - 1][col + 1] = station.getStation_type_val();
-                    } else {
-                        this.assign_station(station, count_of_recursion + 1);
-                    }
+                    placeStation1(station, row, col, count_of_recursion);
                 } else if (value == 2) {
-                    if (spots[row][col] == 0 && spots[row-1][col] == 0 && spots[row-1][col+1] == 0) {
-                        spots[row][col] = station.getStation_type_val();
-                        spots[row-1][col] = station.getStation_type_val();
-                        spots[row-1][col+1] = station.getStation_type_val();
-                    } else {
-                        this.assign_station(station, count_of_recursion + 1);
-                    }
+                    placeStation2(station, row, col, count_of_recursion);
                 } else if (value == 3) {
-
-                    if (spots[row][col] == 0 && spots[row+1][col] == 0 && spots[row-1][col] == 0) {
-                        spots[row][col] = station.getStation_type_val();
-                        spots[row+1][col] = station.getStation_type_val();
-                        spots[row-1][col] = station.getStation_type_val();
-                    } else {
-                        this.assign_station(station, count_of_recursion + 1);
-                    }
+                    placeStation3(station, row, col, count_of_recursion);
                 } else if (value == 4) {
-
-                    if (spots[row][col] == 0 && spots[row-1][col] == 0 && spots[row][col-1] == 0 && spots[row][col+1] == 0) {
-                        spots[row][col] = station.getStation_type_val();
-                        spots[row-1][col] = station.getStation_type_val();
-                        spots[row][col-1] = station.getStation_type_val();
-                        spots[row][col+1] = station.getStation_type_val();
-                    } else {
-                        this.assign_station(station, count_of_recursion + 1);
-                    }
+                    placeStation4(station, row, col, count_of_recursion);
                 }
             } catch(IndexOutOfBoundsException e) {
                 assign_station(station, + 1);
@@ -99,6 +69,47 @@ public class Factory implements  Comparable<Factory>{
                 System.err.println("An unexpected error occurred: " + e.getMessage());
             }
 
+    }
+
+    public void placeStation1(Station station, int row, int col, int count_of_recursion) {
+        if (spots[row][col] == 0 && spots[row - 1][col] == 0 && spots[row][col + 1] == 0 && spots[row - 1][col + 1] == 0) {
+            spots[row][col] = station.getStation_type_val();
+            spots[row - 1][col] = station.getStation_type_val();
+            spots[row][col + 1] = station.getStation_type_val();
+            spots[row - 1][col + 1] = station.getStation_type_val();
+        } else {
+            this.assign_station(station, count_of_recursion + 1);
+        }
+    }
+    public void placeStation2(Station station, int row, int col, int count_of_recursion) {
+        if (spots[row][col] == 0 && spots[row-1][col] == 0 && spots[row-1][col+1] == 0) {
+            spots[row][col] = station.getStation_type_val();
+            spots[row-1][col] = station.getStation_type_val();
+            spots[row-1][col+1] = station.getStation_type_val();
+        } else {
+            this.assign_station(station, count_of_recursion + 1);
+        }
+    }
+
+    public void placeStation3(Station station, int row, int col, int count_of_recursion) {
+        if (spots[row][col] == 0 && spots[row+1][col] == 0 && spots[row-1][col] == 0) {
+            spots[row][col] = station.getStation_type_val();
+            spots[row+1][col] = station.getStation_type_val();
+            spots[row-1][col] = station.getStation_type_val();
+        } else {
+            this.assign_station(station, count_of_recursion + 1);
+        }
+    }
+
+    public void placeStation4(Station station, int row, int col, int count_of_recursion) {
+        if (spots[row][col] == 0 && spots[row-1][col] == 0 && spots[row][col-1] == 0 && spots[row][col+1] == 0) {
+            spots[row][col] = station.getStation_type_val();
+            spots[row-1][col] = station.getStation_type_val();
+            spots[row][col-1] = station.getStation_type_val();
+            spots[row][col+1] = station.getStation_type_val();
+        } else {
+            this.assign_station(station, count_of_recursion + 1);
+        }
     }
 
     public double evaluate_affinity() {
@@ -135,6 +146,11 @@ public class Factory implements  Comparable<Factory>{
                     result -= this.getConnectionValue(cluster_station,connected_cluster_station);
                 }
             }
+        }
+        if (result == Double.POSITIVE_INFINITY) {
+
+            double testagain = this.evaluate_affinity();
+            throw new IllegalArgumentException("The value is infinity");
         }
         this.affinity_value = result;
         return result;
@@ -183,7 +199,7 @@ public class Factory implements  Comparable<Factory>{
                 .map(int[]::clone) // Clone each row
                 .toArray(int[][]::new);
 
-
+        clusterStation_HashMap = new HashMap<>();
 
         for (int i = 0; i < copiedMatrix.length; i++) {
             for (int j = 0; j < copiedMatrix[i].length; j++) {
@@ -221,40 +237,79 @@ public class Factory implements  Comparable<Factory>{
         visit_connected_stations(matrix, row, col-1, clusterStation);
         visit_connected_stations(matrix, row-1, col, clusterStation);
     }
-    public void doMutation() {
+    public Factory doMutation() {
+        Set<Station_Type> allStations = this.clusterStation_HashMap.keySet();
+        if (allStations.isEmpty()) {
+            throw new NullPointerException();
+        }
+        destroyOldCreateNewClusters();
+
+        this.evaluate_affinity();
+
+        return this;
+    }
+
+    public void destroyOldCreateNewClusters(){
         Set<Station_Type> allStations = this.clusterStation_HashMap.keySet();
         ThreadLocalRandom random = ThreadLocalRandom.current();
-        int mutation_number = random.nextInt(3);
-        if (mutation_number == 0) {
-            List<ClusterStation> clusterStationList1 = clusterStation_HashMap.get(Station_Type.getStation_Type(random.nextInt(1,5)));
-            List<ClusterStation> clusterStationList2 = clusterStation_HashMap.get(Station_Type.getStation_Type(random.nextInt(1,5)));
-            randomSwap(clusterStationList1, clusterStationList2);
-        }
 
+        for (int i = 0; i < random.nextInt(1,10); i++) {
+            int randomIndex = random.nextInt(clusterStation_HashMap.size());
+
+            List<Station_Type> stationList = new ArrayList<>(allStations);
+
+            Station_Type randomStation = stationList.get(randomIndex);
+
+//            System.out.println(randomStation);
+            List<ClusterStation> selectedClusterStations = clusterStation_HashMap.get(randomStation);
+
+            if (selectedClusterStations == null || selectedClusterStations.isEmpty()) {
+                throw new NullPointerException();
+            }
+
+            ClusterStation clusterStation = selectedClusterStations.get(random.nextInt(selectedClusterStations.size()));
+
+            destroyCoordinatesOfClusterStation(clusterStation);
+
+            randomPlacementOfDestroyedCoordinates(clusterStation);
+        }
 
     }
 
-    public void randomSwap(List<ClusterStation> clusterStationList1, List<ClusterStation> clusterStationList2){
-        ThreadLocalRandom random = ThreadLocalRandom.current();
-        for (int i = 0; i < random.nextInt(10); i++) {
-            ClusterStation selectedClusterStation1 = clusterStationList1.get(random.nextInt(clusterStationList1.size()));
-            ClusterStation selectedClusterStation2 = clusterStationList2.get(random.nextInt(clusterStationList2.size()));
-
-            for (int[] coordinate: selectedClusterStation1.getCoordinates()) {
-                spots[coordinate[0]][coordinate[1]] = 0;
-            }
-            for (int[] coordinate: selectedClusterStation2.getCoordinates()) {
-                spots[coordinate[0]][coordinate[1]] = 0;
-            }
-
-            int[] clusterStation1MainPoint = selectedClusterStation1.getCoordinates().getFirst();
-            int[] clusterStation2MainPoint = selectedClusterStation2.getCoordinates().getFirst(); // The selected element
-            Station_Type clusterStation1Type = selectedClusterStation1.getStation_type();
-            Station_Type clusterStation2Type = selectedClusterStation2.getStation_type();
-
-            int valueOfStation = clusterStation1Type.getValue();
+    public void destroyCoordinatesOfClusterStation(ClusterStation clusterStation) {
+        for (int[] coordinate: clusterStation.getCoordinates()){
+            spots[coordinate[0]][coordinate[1]] = 0;
         }
     }
+
+    private void randomPlacementOfDestroyedCoordinates(ClusterStation clusterStation) {
+
+        Station_Type station_type = Station_Type.getStation_Type(clusterStation.get_value_of_Station_type());
+//        System.out.println("random placement done for " + station_type);
+        if (station_type == Station_Type.TypeA) {
+            int countOfLoop = clusterStation.getCoordinates().size() / 4;
+            for (int i = 0; i < countOfLoop; i++) {
+                assign_station(new Station(station_type), 0);
+            }
+        } else if (station_type == Station_Type.TypeB) {
+            int countOfLoop = clusterStation.getCoordinates().size() / 3;
+            for (int i = 0; i < countOfLoop; i++) {
+                assign_station(new Station(station_type), 0);
+            }
+        } else if (station_type == Station_Type.TypeC) {
+            int countOfLoop = clusterStation.getCoordinates().size() / 3;
+            for (int i = 0; i < countOfLoop; i++) {
+                assign_station(new Station(station_type), 0);
+            }
+        } else if (station_type == Station_Type.TypeD) {
+            int countOfLoop = clusterStation.getCoordinates().size() / 4;
+            for (int i = 0; i < countOfLoop; i++) {
+                assign_station(new Station(station_type), 0);
+            }
+        }
+    }
+
+
 
     public void doCrossover(Factory other_factory) {
 

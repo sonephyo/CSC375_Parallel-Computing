@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6d30bcf-b7db-42f5-9743-0706643f3cd5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/FactoryTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Callable_Tasks/FactoryTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Station.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Station.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +36,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Run",
+    "Application.Main.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
@@ -76,7 +76,8 @@
       <option name="presentableId" value="Default" />
       <updated>1727449437379</updated>
       <workItem from="1727449439239" duration="16247000" />
-      <workItem from="1727656294748" duration="22133000" />
+      <workItem from="1727656294748" duration="22273000" />
+      <workItem from="1727798191309" duration="12122000" />
     </task>
     <servers />
   </component>
@@ -87,9 +88,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
-          <line>187</line>
-          <option name="timeStamp" value="56" />
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>152</line>
+          <option name="timeStamp" value="57" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-defaults>
