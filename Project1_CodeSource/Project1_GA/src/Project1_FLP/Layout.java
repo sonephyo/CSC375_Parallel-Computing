@@ -73,7 +73,7 @@ public class Layout{
      */
     public synchronized Factory pickRandom() throws ExecutionException, InterruptedException {
 
-        System.out.println("size in pickRandom: " + current_Factories.size());
+//        System.out.println("size in pickRandom: " + current_Factories.size());
         if (current_Factories.isEmpty()) return null;
 
         int randomIndex = new Random().nextInt(current_Factories.size());
@@ -107,7 +107,7 @@ public class Layout{
 //                    System.out.println("atomicValue: " + atomicInteger.incrementAndGet());
                     if (gaOperationRandom == 0) {
                         try {
-                            System.out.println("mutation going");
+//                            System.out.println("mutation going");
                             factory = requestMutationOperation(pickRandom());
                         } catch (ExecutionException | InterruptedException e) {
                             throw new RuntimeException(e);

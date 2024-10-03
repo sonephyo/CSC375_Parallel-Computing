@@ -36,10 +36,7 @@ public class Factory implements  Comparable<Factory>{
             Station station = new Station();
             assign_station(station, 0);
         }
-        System.out.println("Done populating factory");
-        for (int[] spot : this.spots) {
-            System.out.println(Arrays.toString(spot));
-        }
+        outputSpots();
     }
 
     private void assign_station(Station station, int count_of_recursion) {
@@ -114,7 +111,7 @@ public class Factory implements  Comparable<Factory>{
 
     public double evaluate_affinity() {
 
-        HashMap<Station_Type, List<ClusterStation>> clusterStation_HashMap = this.create_cluster(this.spots);
+        clusterStation_HashMap = this.create_cluster(this.spots);
         double result = 0;
 
         for (Station_Type station_type : clusterStation_HashMap.keySet()) {
@@ -264,15 +261,31 @@ public class Factory implements  Comparable<Factory>{
             List<ClusterStation> selectedClusterStations = clusterStation_HashMap.get(randomStation);
 
             if (selectedClusterStations == null || selectedClusterStations.isEmpty()) {
-                throw new NullPointerException();
+                selectedClusterStations = clusterStation_HashMap.get(stationList.getFirst());
             }
 
             ClusterStation clusterStation = selectedClusterStations.get(random.nextInt(selectedClusterStations.size()));
 
             destroyCoordinatesOfClusterStation(clusterStation);
-
             randomPlacementOfDestroyedCoordinates(clusterStation);
+            this.create_cluster(this.spots);
+
+//            System.out.println("--- ");
+//            System.out.println("mutation ended");
+//            outputSpots();
+//            for (List<ClusterStation> clusterStationList: clusterStation_HashMap.values()) {
+//                for (ClusterStation station: clusterStationList) {
+//                    System.out.println(station.getStation_type());
+//                    for (int[] point: station.getCoordinates()) {
+//                        System.out.print(" [" + point[0] + "," + point[1] + "]");
+//                    }
+//                    System.out.println();
+//                }
+//            }
+//            System.out.println("---");
         }
+
+
 
     }
 
@@ -289,24 +302,25 @@ public class Factory implements  Comparable<Factory>{
         if (station_type == Station_Type.TypeA) {
             int countOfLoop = clusterStation.getCoordinates().size() / 4;
             for (int i = 0; i < countOfLoop; i++) {
-                assign_station(new Station(station_type), 0);
+                assign_station(new Station(station_type), -1000);
             }
         } else if (station_type == Station_Type.TypeB) {
             int countOfLoop = clusterStation.getCoordinates().size() / 3;
             for (int i = 0; i < countOfLoop; i++) {
-                assign_station(new Station(station_type), 0);
+                assign_station(new Station(station_type), -1000);
             }
         } else if (station_type == Station_Type.TypeC) {
             int countOfLoop = clusterStation.getCoordinates().size() / 3;
             for (int i = 0; i < countOfLoop; i++) {
-                assign_station(new Station(station_type), 0);
+                assign_station(new Station(station_type), -1000);
             }
         } else if (station_type == Station_Type.TypeD) {
             int countOfLoop = clusterStation.getCoordinates().size() / 4;
             for (int i = 0; i < countOfLoop; i++) {
-                assign_station(new Station(station_type), 0);
+                assign_station(new Station(station_type), -1000);
             }
         }
+
     }
 
 
@@ -350,5 +364,10 @@ public class Factory implements  Comparable<Factory>{
 
     }
 
+    public void outputSpots() {
+        for (int[] spot : this.spots) {
+            System.out.println(Arrays.toString(spot));
+        }
+    }
 
 }
