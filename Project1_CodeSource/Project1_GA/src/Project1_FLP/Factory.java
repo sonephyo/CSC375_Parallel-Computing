@@ -234,7 +234,7 @@ public class Factory implements  Comparable<Factory>{
         visit_connected_stations(matrix, row, col-1, clusterStation);
         visit_connected_stations(matrix, row-1, col, clusterStation);
     }
-    public Factory doMutation() {
+    public Factory doMutation() throws Exception {
         Set<Station_Type> allStations = this.clusterStation_HashMap.keySet();
         if (allStations.isEmpty()) {
             throw new NullPointerException();
@@ -246,22 +246,37 @@ public class Factory implements  Comparable<Factory>{
         return this;
     }
 
-    public void destroyOldCreateNewClusters(){
+    public void destroyOldCreateNewClusters() throws Exception {
         Set<Station_Type> allStations = this.clusterStation_HashMap.keySet();
         ThreadLocalRandom random = ThreadLocalRandom.current();
 
         for (int i = 0; i < random.nextInt(1,10); i++) {
-            int randomIndex = random.nextInt(clusterStation_HashMap.size());
+            try {
 
-            List<Station_Type> stationList = new ArrayList<>(allStations);
+                int randomIndex = random.nextInt(this.clusterStation_HashMap.size());
 
-            Station_Type randomStation = stationList.get(randomIndex);
+                List<Station_Type> stationList = new ArrayList<>(allStations);
+
+                Station_Type randomStation;
+                if (randomIndex < stationList.size()) {
+                    randomStation = stationList.get(randomIndex);
+                } else{
+                    randomStation = stationList.getFirst();
+                }
+
 
 //            System.out.println(randomStation);
             List<ClusterStation> selectedClusterStations = clusterStation_HashMap.get(randomStation);
 
             if (selectedClusterStations == null || selectedClusterStations.isEmpty()) {
-                selectedClusterStations = clusterStation_HashMap.get(stationList.getFirst());
+                System.out.println("SelectedCluster station is null");
+                for (List<ClusterStation> clusterStationList: clusterStation_HashMap.values()) {
+                    if (clusterStationList != null) {
+                        selectedClusterStations = clusterStationList;
+                        break;
+                    }
+                }
+//                throw new NullPointerException();
             }
 
             ClusterStation clusterStation = selectedClusterStations.get(random.nextInt(selectedClusterStations.size()));
@@ -283,6 +298,9 @@ public class Factory implements  Comparable<Factory>{
 //                }
 //            }
 //            System.out.println("---");
+            } catch (Exception e) {
+                throw new Exception(e);
+            }
         }
 
 

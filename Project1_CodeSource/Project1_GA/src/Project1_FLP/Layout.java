@@ -73,7 +73,7 @@ public class Layout{
      */
     public synchronized Factory pickRandom() throws ExecutionException, InterruptedException {
 
-//        System.out.println("size in pickRandom: " + current_Factories.size());
+        System.out.println("size in pickRandom: " + current_Factories.size());
         if (current_Factories.isEmpty()) return null;
 
         int randomIndex = new Random().nextInt(current_Factories.size());
@@ -149,7 +149,6 @@ public class Layout{
             for (int a = 0; a< 5; a++) {
                 if (current_Factories.size() > a) {
                     System.out.println(current_Factories.get(a).getAffinity_value());
-
                 }
             }
 
@@ -177,7 +176,7 @@ public class Layout{
         }
     }
 
-    private Factory requestCrossOverOperation(Factory factory1, Factory factory2) {
+    private Factory requestCrossOverOperation(Factory factory1, Factory factory2) throws Exception {
         if (factory1 != null && factory2 == null) {
             return requestMutationOperation(factory1);
         }
@@ -189,7 +188,7 @@ public class Layout{
         return factory2;
     }
 
-    private Factory requestMutationOperation(Factory factory) {
+    private Factory requestMutationOperation(Factory factory) throws Exception {
         if (factory == null) {
             return null;
         }

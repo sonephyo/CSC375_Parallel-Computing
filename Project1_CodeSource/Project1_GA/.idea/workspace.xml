@@ -7,7 +7,7 @@
     <list default="true" id="a6d30bcf-b7db-42f5-9743-0706643f3cd5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +24,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -34,7 +38,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Run",
+    "Application.Main.executor": "Debug",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
@@ -76,7 +80,7 @@
       <workItem from="1727449439239" duration="16247000" />
       <workItem from="1727656294748" duration="22273000" />
       <workItem from="1727798191309" duration="12478000" />
-      <workItem from="1727884552404" duration="5923000" />
+      <workItem from="1727884552404" duration="8380000" />
     </task>
     <servers />
   </component>
@@ -92,19 +96,39 @@
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
-          <line>239</line>
-          <option name="timeStamp" value="75" />
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
+          <line>163</line>
+          <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
+          <line>173</line>
+          <option name="timeStamp" value="117" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
-          <line>263</line>
-          <option name="timeStamp" value="82" />
+          <line>296</line>
+          <option name="timeStamp" value="129" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>249</line>
+          <option name="timeStamp" value="130" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>250</line>
+          <option name="timeStamp" value="131" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-defaults>
         <breakpoint suspend="THREAD" type="java-line" />
       </breakpoints-defaults>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((IndexOutOfBoundsException)((FutureTask)future).outcome).stackTrace" custom="java.lang.IndexOutOfBoundsException,java.util.concurrent.FutureTask" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
