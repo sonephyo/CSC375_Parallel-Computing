@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a6d30bcf-b7db-42f5-9743-0706643f3cd5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Callable_Tasks/FactoryTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Callable_Tasks/FactoryTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,10 +26,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -38,7 +40,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.Main.executor": "Debug",
+    "Application.Factory.executor": "Run",
+    "Application.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
@@ -53,6 +56,19 @@
   }
 }]]></component>
   <component name="RunManager">
+    <configuration name="Factory" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Project1_FLP.Factory" />
+      <module name="Project1_GA" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Project1_FLP.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="Project1_FLP.Main" />
       <module name="Project1_GA" />
@@ -60,6 +76,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Factory" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -80,7 +101,9 @@
       <workItem from="1727449439239" duration="16247000" />
       <workItem from="1727656294748" duration="22273000" />
       <workItem from="1727798191309" duration="12478000" />
-      <workItem from="1727884552404" duration="8380000" />
+      <workItem from="1727884552404" duration="8622000" />
+      <workItem from="1728008611263" duration="79000" />
+      <workItem from="1728263191576" duration="4844000" />
     </task>
     <servers />
   </component>
@@ -92,43 +115,28 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
-          <line>149</line>
+          <line>150</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
-          <line>163</line>
-          <option name="timeStamp" value="116" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
-          <line>173</line>
-          <option name="timeStamp" value="117" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
-          <line>296</line>
+          <line>302</line>
           <option name="timeStamp" value="129" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
-          <line>249</line>
-          <option name="timeStamp" value="130" />
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Callable_Tasks/FactoryTask.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="131" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
-          <line>250</line>
-          <option name="timeStamp" value="131" />
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
+          <line>144</line>
+          <option name="timeStamp" value="132" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-defaults>
         <breakpoint suspend="THREAD" type="java-line" />
       </breakpoints-defaults>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="Application">
-        <watch expression="((IndexOutOfBoundsException)((FutureTask)future).outcome).stackTrace" custom="java.lang.IndexOutOfBoundsException,java.util.concurrent.FutureTask" />
-      </configuration>
-    </watches-manager>
   </component>
 </project>

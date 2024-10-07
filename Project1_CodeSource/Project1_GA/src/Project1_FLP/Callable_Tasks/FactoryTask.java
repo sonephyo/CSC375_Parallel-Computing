@@ -17,6 +17,7 @@ public class FactoryTask implements Callable<Factory>{
         Factory factory = new Factory(numOfStations);
         factory.populate_factory();
         double result = factory.evaluate_affinity();
+        factory.getSpots();
 
         return factory;
     }

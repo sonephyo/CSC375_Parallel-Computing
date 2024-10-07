@@ -161,7 +161,7 @@ public class Layout{
 
     private void doSelection() {
         if (current_Factories.size() > 64) {
-            current_Factories = current_Factories.subList(0,10);
+            current_Factories = current_Factories.subList(0,20);
         }
     }
 
@@ -184,7 +184,7 @@ public class Layout{
             throw new NullPointerException();
         }
         factory1.doCrossover(factory2);
-        factory2.setSpots(factory1.getSpots());
+//        factory2.setSpots(factory1.getSpots());
         return factory2;
     }
 

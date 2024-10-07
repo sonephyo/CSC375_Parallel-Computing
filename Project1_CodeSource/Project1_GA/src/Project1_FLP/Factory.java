@@ -44,7 +44,8 @@ public class Factory implements  Comparable<Factory>{
         int col = ThreadLocalRandom.current().nextInt(spots[0].length);
 
         // To prevent recursion overflow
-        if (count_of_recursion == 5) {
+        // Note: Increasing the count_of_recursion more than 10 can lead to stack over flow
+        if (count_of_recursion == 10) {
             return;
         }
 
@@ -269,14 +270,14 @@ public class Factory implements  Comparable<Factory>{
             List<ClusterStation> selectedClusterStations = clusterStation_HashMap.get(randomStation);
 
             if (selectedClusterStations == null || selectedClusterStations.isEmpty()) {
-                System.out.println("SelectedCluster station is null");
-                for (List<ClusterStation> clusterStationList: clusterStation_HashMap.values()) {
-                    if (clusterStationList != null) {
-                        selectedClusterStations = clusterStationList;
-                        break;
-                    }
-                }
-//                throw new NullPointerException();
+                return;
+//                for (List<ClusterStation> clusterStationList: clusterStation_HashMap.values()) {
+//                    if (clusterStationList != null) {
+//                        selectedClusterStations = clusterStationList;
+//                        break;
+//                    }
+//                }
+////                throw new NullPointerException();
             }
 
             ClusterStation clusterStation = selectedClusterStations.get(random.nextInt(selectedClusterStations.size()));
@@ -344,6 +345,59 @@ public class Factory implements  Comparable<Factory>{
 
 
     public void doCrossover(Factory other_factory) {
+        int[][] other_factory_spots = other_factory.getSpots();
+
+        ThreadLocalRandom random = ThreadLocalRandom.current();
+        int randomSegmentation = random.nextInt(0,4);
+        int rowStart = 0;
+        int rowEnd = 0;
+        int colStart = 0;
+        int colEnd = 0;
+        if (randomSegmentation == 0) {
+            rowEnd = spots.length/2;
+            colEnd = spots[0].length/2;
+        } else if (randomSegmentation == 1) {
+            rowEnd = spots.length/2;
+            colStart = spots[0].length/2;
+            colEnd = spots[0].length;
+        } else if (randomSegmentation == 2) {
+            rowStart = spots.length/2;
+            rowEnd = spots.length;
+            colEnd = spots[0].length/2;
+        } else if (randomSegmentation == 3) {
+            rowStart = spots.length/2;
+            colStart = spots[0].length/2;
+            rowEnd = spots.length;
+            colEnd = spots[0].length;
+        }
+//
+//        int[][] temp = new int[rowEnd-rowStart][colEnd-colStart];
+//
+//
+//        for (int i = rowStart; i < rowEnd; i++) {
+//            for (int j = colStart; j < colEnd; j++) {
+//
+//                if (i == rowEnd - 1 || i == rowStart || j == colEnd - 1 || j == colStart) {
+//                    HashSet<int[]> connectedPoints = getConnectedPoints(i,j);
+//                }
+//
+//                temp[i-rowStart][j-colStart] = spots[i][j];
+//                spots[i][j] = other_factory_spots[i][j];
+//                other_factory_spots[i][j] = temp[i-rowStart][j-colStart];
+//            }
+//        }
+//
+//
+//        System.out.println("selection: " + randomSegmentation);
+//        System.out.println("rowStart: " + rowStart + ", colStart: " + colStart + ", rowEnd: " + rowEnd + ", colEnd: " + colEnd);
+//        for (int[] i: spots) {
+//            System.out.println(Arrays.toString(i));
+//        }
+
+
+    }
+
+    private HashSet<int[]> getConnectedPoints(int i, int j) {
 
     }
 
@@ -366,19 +420,30 @@ public class Factory implements  Comparable<Factory>{
 
     public static void main(String[] args) {
 
-        for (int i = 0; i < 10; i++) {
-            Factory factory = new Factory(5);
-            factory.populate_factory();
-            factory.evaluate_affinity();
-        }
-
-        Factory factory1 = new Factory(5);
+        Factory factory1 = new Factory(7);
         factory1.spots = new int[][]{
-                {3, 1, 1},
-                {3, 1, 1},
-                {3, 0, 0}
+                {0, 0, 1, 0, 2, 0, 0},
+                {0, 3, 0, 4, 0, 0, 0},
+                {1, 0, 0, 0, 2, 0, 3},
+                {0, 0, 0, 0, 0, 4, 0},
+                {0, 2, 0, 0, 1, 0, 0},
+                {4, 0, 0, 3, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0}
         };
-        factory1.evaluate_affinity();
+
+        Factory factory2 = new Factory(7);
+        factory2.spots = new int[][]{
+                {0, 1, 0, 0, 0, 2, 0},
+                {0, 0, 3, 0, 0, 0, 0},
+                {0, 0, 0, 4, 0, 0, 1},
+                {0, 0, 0, 0, 3, 0, 0},
+                {2, 0, 0, 0, 0, 4, 0},
+                {0, 3, 0, 0, 1, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0}
+        };
+
+
+        factory1.doCrossover(factory1);
 
     }
 
