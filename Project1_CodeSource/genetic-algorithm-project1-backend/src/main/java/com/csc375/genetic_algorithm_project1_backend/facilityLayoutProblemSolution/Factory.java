@@ -1,6 +1,7 @@
-package Project1_FLP;
+package com.csc375.genetic_algorithm_project1_backend.facilityLayoutProblemSolution;
 
-import Project1_FLP.Enum.Station_Type;
+
+import com.csc375.genetic_algorithm_project1_backend.facilityLayoutProblemSolution.Enum.Station_Type;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
