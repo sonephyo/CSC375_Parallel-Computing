@@ -52,7 +52,7 @@ public class Factory implements  Comparable<Factory>{
 
         // To prevent recursion overflow
         // Note: Increasing the count_of_recursion more than 10 can lead to stack over flow
-        if (count_of_recursion == 10) {
+        if (count_of_recursion == 1000) {
             return;
         }
 

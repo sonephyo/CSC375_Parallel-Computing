@@ -2,12 +2,15 @@
 
 package com.csc375.genetic_algorithm_project1_backend.facilityLayoutProblemSolution;
 
+
+
 import com.csc375.genetic_algorithm_project1_backend.facilityLayoutProblemSolution.Callable_Tasks.FactoryTask;
 import com.csc375.genetic_algorithm_project1_backend.service.WebSocketService;
 
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Layout{
 
@@ -26,16 +29,13 @@ public class Layout{
         this.webSocketService = webSocketService;
     }
 
-//    public Layout(int num_of_thread) {
-//        this.num_of_threads = num_of_thread;
-//    }
     /**
      * Generate factories based on the num_of_threads the class is assigned
      * The maximum affinity will be assigned, to be used in the future.
      * Note: The factories are created in parallel, and need to be put in Future class first
      * @param num_of_stations - station that all factories should have. Number of station influences the factory size.
      */
-    public void evaluate(int num_of_stations, int count_of_GAOperations) throws InterruptedException {
+    public void evaluate(int num_of_stations, int count_of_GAOperations) {
 
         ExecutorService executorService = Executors.newFixedThreadPool(num_of_threads);
 
@@ -60,19 +60,25 @@ public class Layout{
         }
 
         current_Factories.sort(Collections.reverseOrder());
-        for (Factory f: current_Factories) {
-            f.evaluate_affinity();
-            System.out.println(f.getAffinity_value());
-
-        }
 
         for (int i = 0; i < count_of_GAOperations; i++) {
             doGAOperations();
             webSocketService.sendData(current_Factories.getFirst().getSpots());
         }
 
-        System.out.println("Ended");
+        System.out.println("--- end --- ");
+        for (Factory f: current_Factories) {
+            f.evaluate_affinity();
+            System.out.println(f.getAffinity_value());
+        }
 
+        System.out.println("end ");
+
+        current_Factories.getFirst().evaluate_affinity();
+        System.out.println("----  " + current_Factories.getFirst().getAffinity_value());
+        for (int[] list: current_Factories.getFirst().getSpots()) {
+            System.out.println(Arrays.toString(list));
+        }
     }
 
     /**
@@ -109,39 +115,40 @@ public class Layout{
 
             while (index < count_cFactories) {
 
-//                int gaOperationRandom = ThreadLocalRandom.current().nextInt(2);
-                int gaOperationRandom = 0;
+                int gaOperationRandom = ThreadLocalRandom.current().nextInt(200);
+//                int gaOperationRandom = 0;
 
                 Callable<Factory> task = () -> {
                     Factory factory = null;
-//                    System.out.println("atomicValue: " + atomicInteger.incrementAndGet());
-                    if (gaOperationRandom == 0) {
-                        try {
-//                            System.out.println("mutation going");
+                    // Increment your atomic integer if needed
+                    // System.out.println("atomicValue: " + atomicInteger.incrementAndGet());
+
+                    try {
+                        if (gaOperationRandom != 0) {
+                            // Mutation operation
+                            System.out.println("Mutation operation is going");
                             factory = requestMutationOperation(pickRandom());
-                        } catch (ExecutionException | InterruptedException e) {
-                            throw new RuntimeException(e);
+                        } else {
+                            // Crossover operation
+//                            System.out.println("Crossover operation is going");
+//                            factory = requestCrossOverOperation(pickRandom(), pickRandom());
+
+                            // You can choose which factory to return. Here I return the first one
                         }
+                    } catch (Exception e) {
+                        System.out.println("There was an error in the thread: " + e.getMessage());
+                        throw new RuntimeException(e);
                     }
 
-                    if (gaOperationRandom == 1) {
-                        try {
-                            System.out.println("crossover going");
-                            factory = requestCrossOverOperation(pickRandom(), pickRandom());
-
-                        } catch (ExecutionException | InterruptedException e) {
-                            System.out.println("There was error in the thread");
-                            throw new RuntimeException(e);
-                        }
-                    }
                     return factory;
                 };
 
+
                 tasks.add(task);
-                if (gaOperationRandom == 0) {
+                if (gaOperationRandom != 0) {
                     index++;
                 }
-                if (gaOperationRandom == 1) {
+                if (gaOperationRandom == 0) {
                     index += 2;
                 }
             }
@@ -152,13 +159,24 @@ public class Layout{
 
             update_current_Factories(future_Factories);
 
+            current_Factories = current_Factories.stream()
+                    .filter(c -> c != null)
+                    .collect(Collectors.toList());
+
+
+            current_Factories.sort(Collections.reverseOrder());
+
             doSelection();
 
             System.out.println("-----");
-            current_Factories.sort(Collections.reverseOrder());
-            for (int a = 0; a< current_Factories.size(); a++) {
-                System.out.println(current_Factories.get(a).getAffinity_value());
+            for (int a = 0; a< 5; a++) {
+                if (current_Factories.size() > a) {
+                    System.out.println(current_Factories.get(a).getAffinity_value());
+                }
             }
+
+//            current_Factories.getFirst().outputSpots();
+            System.out.println("---");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -191,9 +209,9 @@ public class Layout{
         if (factory1 == null) {
             throw new NullPointerException();
         }
-        factory1.doCrossover(factory2);
+        Factory output = factory1.doCrossover(factory2);
 //        factory2.setSpots(factory1.getSpots());
-        return factory2;
+        return output;
     }
 
     private Factory requestMutationOperation(Factory factory) throws Exception {

@@ -14,11 +14,8 @@ public class WebSocketService {
 
     static final int num_of_stations = 48;
 
-    static final int num_of_threads = 32;
-    static final int countOfGAOperations = 20000;
-
-    private static final long COOLDOWN_PERIOD = 1000; // 1 minute in milliseconds
-    private volatile long lastExecutionTime = 0; // To store the last execution time
+    static final int num_of_threads = 1;
+    static final int countOfGAOperations = 2000;
 
 
     private final SimpMessagingTemplate messagingTemplate;
