@@ -5,14 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6d30bcf-b7db-42f5-9743-0706643f3cd5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Factory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Layout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/service/WebSocketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/service/WebSocketService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-frontend/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-frontend/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Station.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Station.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +107,7 @@
       <workItem from="1728323082208" duration="1603000" />
       <workItem from="1728569076477" duration="830000" />
       <workItem from="1728669960377" duration="15680000" />
-      <workItem from="1728877666751" duration="6490000" />
+      <workItem from="1728877666751" duration="6917000" />
     </task>
     <servers />
   </component>
