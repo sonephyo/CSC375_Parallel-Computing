@@ -7,6 +7,7 @@ import Project1_FLP.Callable_Tasks.FactoryTask;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Layout{
 
@@ -58,6 +59,14 @@ public class Layout{
             doGAOperations();
         }
 
+        System.out.println("--- end --- ");
+        for (Factory f: current_Factories) {
+            f.evaluate_affinity();
+            System.out.println(f.getAffinity_value());
+        }
+
+        System.out.println("end ");
+
         current_Factories.getFirst().evaluate_affinity();
         System.out.println("----  " + current_Factories.getFirst().getAffinity_value());
         for (int[] list: current_Factories.getFirst().getSpots()) {
@@ -99,39 +108,40 @@ public class Layout{
 
             while (index < count_cFactories) {
 
-//                int gaOperationRandom = ThreadLocalRandom.current().nextInt(2);
-                int gaOperationRandom = 0;
+                int gaOperationRandom = ThreadLocalRandom.current().nextInt(200);
+//                int gaOperationRandom = 0;
 
                 Callable<Factory> task = () -> {
                     Factory factory = null;
-//                    System.out.println("atomicValue: " + atomicInteger.incrementAndGet());
-                    if (gaOperationRandom == 0) {
-                        try {
-//                            System.out.println("mutation going");
+                    // Increment your atomic integer if needed
+                    // System.out.println("atomicValue: " + atomicInteger.incrementAndGet());
+
+                    try {
+                        if (gaOperationRandom != 0) {
+                            // Mutation operation
+                            System.out.println("Mutation operation is going");
                             factory = requestMutationOperation(pickRandom());
-                        } catch (ExecutionException | InterruptedException e) {
-                            throw new RuntimeException(e);
+                        } else {
+                            // Crossover operation
+//                            System.out.println("Crossover operation is going");
+//                            factory = requestCrossOverOperation(pickRandom(), pickRandom());
+
+                            // You can choose which factory to return. Here I return the first one
                         }
+                    } catch (Exception e) {
+                        System.out.println("There was an error in the thread: " + e.getMessage());
+                        throw new RuntimeException(e);
                     }
 
-                    if (gaOperationRandom == 1) {
-                        try {
-                            System.out.println("crossover going");
-                            factory = requestCrossOverOperation(pickRandom(), pickRandom());
-
-                        } catch (ExecutionException | InterruptedException e) {
-                            System.out.println("There was error in the thread");
-                            throw new RuntimeException(e);
-                        }
-                    }
                     return factory;
                 };
 
+
                 tasks.add(task);
-                if (gaOperationRandom == 0) {
+                if (gaOperationRandom != 0) {
                     index++;
                 }
-                if (gaOperationRandom == 1) {
+                if (gaOperationRandom == 0) {
                     index += 2;
                 }
             }
@@ -142,15 +152,24 @@ public class Layout{
 
             update_current_Factories(future_Factories);
 
+            current_Factories = current_Factories.stream()
+                    .filter(c -> c != null)
+                    .collect(Collectors.toList());
+
+
+            current_Factories.sort(Collections.reverseOrder());
+
             doSelection();
 
             System.out.println("-----");
-            current_Factories.sort(Collections.reverseOrder());
             for (int a = 0; a< 5; a++) {
                 if (current_Factories.size() > a) {
                     System.out.println(current_Factories.get(a).getAffinity_value());
                 }
             }
+
+//            current_Factories.getFirst().outputSpots();
+            System.out.println("---");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -183,9 +202,9 @@ public class Layout{
         if (factory1 == null) {
             throw new NullPointerException();
         }
-        factory1.doCrossover(factory2);
+        Factory output = factory1.doCrossover(factory2);
 //        factory2.setSpots(factory1.getSpots());
-        return factory2;
+        return output;
     }
 
     private Factory requestMutationOperation(Factory factory) throws Exception {

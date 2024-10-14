@@ -9,8 +9,8 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        Layout layout = new Layout(num_of_threads);
-        layout.evaluate(num_of_stations, countOfGAOperations);
+//        Layout layout = new Layout(num_of_threads);
+//        layout.evaluate(num_of_stations, countOfGAOperations);
 
     }
 }

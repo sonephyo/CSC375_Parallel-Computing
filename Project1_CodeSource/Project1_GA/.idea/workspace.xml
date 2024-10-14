@@ -7,10 +7,12 @@
     <list default="true" id="a6d30bcf-b7db-42f5-9743-0706643f3cd5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Layout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/service/WebSocketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/service/WebSocketService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-frontend/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-frontend/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-frontend/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,23 +41,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Factory.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/sonephyo/Documents/Fall 2024/CSC375/Code/Project1_CodeSource/Project1_GA&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Factory.executor": "Run",
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/sonephyo/Documents/Fall 2024/CSC375/Code/Project1_CodeSource/Project1_GA",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="Factory" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Project1_FLP.Factory" />
@@ -108,6 +110,8 @@
       <workItem from="1728307407034" duration="696000" />
       <workItem from="1728323082208" duration="1603000" />
       <workItem from="1728569076477" duration="830000" />
+      <workItem from="1728669960377" duration="15680000" />
+      <workItem from="1728877666751" duration="6490000" />
     </task>
     <servers />
   </component>
@@ -119,28 +123,29 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
-          <line>150</line>
-          <option name="timeStamp" value="57" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
-          <line>302</line>
+          <line>286</line>
           <option name="timeStamp" value="129" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Callable_Tasks/FactoryTask.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="131" />
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
+          <line>161</line>
+          <option name="timeStamp" value="200" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
-          <line>144</line>
-          <option name="timeStamp" value="132" />
+          <line>154</line>
+          <option name="timeStamp" value="201" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-defaults>
         <breakpoint suspend="THREAD" type="java-line" />
       </breakpoints-defaults>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Project1_FLP.Layout" memberName="current_Factories" />
+        <PinnedItemInfo parentTag="Project1_FLP.Layout" memberName="future_Factories" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

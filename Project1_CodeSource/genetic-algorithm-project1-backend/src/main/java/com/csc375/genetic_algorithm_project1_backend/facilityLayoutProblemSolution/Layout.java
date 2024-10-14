@@ -19,16 +19,16 @@ public class Layout{
     private List<Factory> current_Factories = new ArrayList<>();
     private final AtomicInteger atomicInteger = new AtomicInteger(0);
 
-//    private final WebSocketService webSocketService;
-//
-//    public Layout(int num_of_threads, WebSocketService webSocketService) {
-//        this.num_of_threads = num_of_threads;
-//        this.webSocketService = webSocketService;
-//    }
+    private final WebSocketService webSocketService;
 
-    public Layout(int num_of_thread) {
-        this.num_of_threads = num_of_thread;
+    public Layout(int num_of_threads, WebSocketService webSocketService) {
+        this.num_of_threads = num_of_threads;
+        this.webSocketService = webSocketService;
     }
+
+//    public Layout(int num_of_thread) {
+//        this.num_of_threads = num_of_thread;
+//    }
     /**
      * Generate factories based on the num_of_threads the class is assigned
      * The maximum affinity will be assigned, to be used in the future.
@@ -68,8 +68,10 @@ public class Layout{
 
         for (int i = 0; i < count_of_GAOperations; i++) {
             doGAOperations();
-//            webSocketService.sendData(current_Factories.getFirst().getSpots());
+            webSocketService.sendData(current_Factories.getFirst().getSpots());
         }
+
+        System.out.println("Ended");
 
     }
 

@@ -14,8 +14,12 @@ public class WebSocketService {
 
     static final int num_of_stations = 48;
 
-    static final int num_of_threads = 1;
+    static final int num_of_threads = 32;
     static final int countOfGAOperations = 2000;
+
+    private static final long COOLDOWN_PERIOD = 1000; // 1 minute in milliseconds
+    private volatile long lastExecutionTime = 0; // To store the last execution time
+
 
     private final SimpMessagingTemplate messagingTemplate;
     @Autowired
@@ -25,14 +29,16 @@ public class WebSocketService {
 
     public void generateFLPSolution() throws InterruptedException {
         System.out.println("Starting generating");
-//        Layout layout = new Layout(num_of_threads, this);
-//        layout.evaluate(num_of_stations, countOfGAOperations);
+        Layout layout = new Layout(num_of_threads, this);
+        layout.evaluate(num_of_stations, countOfGAOperations);
     }
 
-    public void sendData(int[][] generatedData) {
-        HashMap<String, int[][]> data = new HashMap<>();
-        data.put("data", generatedData);
-        messagingTemplate.convertAndSend("/topic/reply", data);
+    public synchronized void sendData(int[][] generatedData) {
+            HashMap<String, int[][]> data = new HashMap<>();
+            data.put("data", generatedData);
+
+            // Send the message through the WebSocket
+            messagingTemplate.convertAndSend("/topic/reply", data);
     }
 
 }
