@@ -8,8 +8,7 @@ The project aims to minimize the total transportation cost that occur
 between facilities while considering constraints such as spatial limitations
 and facilities dimensions.
 
-
-https://github.com/user-attachments/assets/10d54301-d5a2-49f0-925b-7727804dfe61
+https://github.com/user-attachments/assets/2670b09b-2791-41a5-a672-c6ac6930c7d4
 
 ---
 
