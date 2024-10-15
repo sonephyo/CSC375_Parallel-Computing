@@ -61,9 +61,10 @@ public class Layout{
 
         for (int i = 0; i < count_of_GAOperations; i++) {
             doGAOperations();
-            webSocketService.sendData(current_Factories.getFirst().getSpots());
+            webSocketService.sendData(current_Factories.getFirst().getSpots(), current_Factories.getFirst().getAffinity_value(), i+1);
         }
 
+        webSocketService.sendFinish();
 
         System.out.println("--- end --- ");
         for (Factory f: current_Factories) {

@@ -15,9 +15,16 @@ public class Factory implements  Comparable<Factory>{
 
     public Factory(int numOfStations) {
         this.id = UUID.randomUUID().toString();
-        int randomRowSize = (int) Math.ceil(numOfStations / 2.0);
-        int randomColSize = (int) Math.ceil(numOfStations / 2.0);
-        this.spots = new int[randomRowSize][randomColSize];
+        if (numOfStations < 20) {
+            int randomRowSize = 20;
+            int randomColSize = 20;
+            this.spots = new int[randomRowSize][randomColSize];
+        } else {
+            int randomRowSize = (int) Math.ceil(numOfStations / 2.0);
+            int randomColSize = (int) Math.ceil(numOfStations / 2.0);
+            this.spots = new int[randomRowSize][randomColSize];
+        }
+
         this.num_of_stations = numOfStations;
     }
 

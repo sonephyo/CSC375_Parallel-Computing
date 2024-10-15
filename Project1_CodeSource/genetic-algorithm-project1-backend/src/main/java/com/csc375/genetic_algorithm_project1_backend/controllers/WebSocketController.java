@@ -1,5 +1,6 @@
 package com.csc375.genetic_algorithm_project1_backend.controllers;
 
+import com.csc375.genetic_algorithm_project1_backend.models.StartRequest;
 import com.csc375.genetic_algorithm_project1_backend.service.WebSocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -25,19 +26,13 @@ public class WebSocketController {
     }
 
     @MessageMapping("/start")
-    public void startScheduler() throws InterruptedException {
-        System.out.println("Generation started");
-        webSocketService.generateFLPSolution();
+    public void startScheduler(@Payload StartRequest startRequest) throws InterruptedException {
+        webSocketService.generateFLPSolution(startRequest);
     }
 
-    @MessageMapping("/stop")
+    @MessageMapping("/terminate")
     public void stopScheduler() {
-        System.out.println("Scheduler stopped");
-    }
-
-    public int message(@Payload String message) {
-        System.out.println("Message is " + message);
-        return ThreadLocalRandom.current().nextInt();
+        webSocketService.terminateProgram();
     }
 
 
