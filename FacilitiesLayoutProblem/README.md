@@ -2,8 +2,6 @@
 
 ## General Overview
 
----
-
 Facilities Layout Problem is a NP-hard optimization problem that focuses
 on the optimal arrangement of the facilities in the given space.
 The project aims to minimize the total transportation cost that occur 
@@ -11,6 +9,7 @@ between facilities while considering constraints such as spatial limitations
 and facilities dimensions.
 
 
+https://github.com/user-attachments/assets/10d54301-d5a2-49f0-925b-7727804dfe61
 
 ---
 
