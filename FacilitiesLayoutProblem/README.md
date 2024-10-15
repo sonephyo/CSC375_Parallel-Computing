@@ -10,7 +10,7 @@ The project aims to minimize the total transportation cost that occur
 between facilities while considering constraints such as spatial limitations
 and facilities dimensions.
 
-## Specifications
+
 
 ---
 
@@ -109,8 +109,8 @@ The four station types represents the following structure.
 | 0 | 0      | 0 |
 
 
-Stations are placed in random places with the use of LocalThreadRandomizer for variation.
-If two stations happen to sit beside each other in the direction of horizontal and vertical (excluding diagonals),
+- Stations are placed in random places with the use of LocalThreadRandomizer for variation.
+- If two stations happen to sit beside each other in the direction of horizontal and vertical (excluding diagonals),
 the two stations will combine to form a station cluster.
 (Note:_This is intentionally designed with the purpose of how combine stations can work together effectively_)
 Station Cluster with higher combinations will contribute higher value when affecting the affinity function.
@@ -120,7 +120,24 @@ Station Cluster with higher combinations will contribute higher value when affec
 1. Each station/cluster_station of any type wants to be close with the station type of its next char (e.g. TypeA wants TypeB. the closer TypeA and TypeB are, higher the value of the affinity value)
 2. If stations are not in a cluster or together, the closer the distance between the stations of same type, the higher the affinity value will be negatively affect.
 
+## General Flow of the Program
+1. By default, there will be 48 stations, 64 threads and 200 genetic algorithm operations (Users are able to define/modify these from the frontend)
+2. Initially, 64 random factories will be created and include 48 stations in each
+3. In each GA operation, the top 64 factories will be selected and will be assigned to do mutation or crossover
+   1. Doing mutation includes selecting a station type and its respective stations and moving around and evaluating the affinity value (A factory has 95% chance to be selected for mutation)
+   2. Doing crossover swaps one segment of the factory (Note: there are four segments in one stations divided in equal four segements) with other same segment. Then, we will go over the factories to tweak the stations that are not in their proper format (A factory has 5% chance to be selected for crossover)
+4. The result list of factories will be within n and 2n given that n is the total factories before the GA operation
+5. The GA operation continue until the end of the specified operation count.
 
+## Observation
+- The initial stations within the factory will be different after each operation.
+  - This is due to crossover introducing new stations in the segments it is exchanging
+- As operation goes on, the crossover regardless of doing operation will not be included in the selection due to mostly having lower values.
+- For the default input, the operation start to converage around 400th.
 
+## Resources
+
+- [Flow chart Diagram](https://drive.google.com/file/d/1aNOLWbXpScuIEieXHz5GC94fuzeZIkb4/view?usp=sharing)
+-  
 
 
