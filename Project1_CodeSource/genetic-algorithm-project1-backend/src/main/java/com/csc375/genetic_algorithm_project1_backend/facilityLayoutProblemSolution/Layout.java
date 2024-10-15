@@ -2,8 +2,6 @@
 
 package com.csc375.genetic_algorithm_project1_backend.facilityLayoutProblemSolution;
 
-
-
 import com.csc375.genetic_algorithm_project1_backend.facilityLayoutProblemSolution.Callable_Tasks.FactoryTask;
 import com.csc375.genetic_algorithm_project1_backend.service.WebSocketService;
 
@@ -66,8 +64,10 @@ public class Layout{
             webSocketService.sendData(current_Factories.getFirst().getSpots());
         }
 
+
         System.out.println("--- end --- ");
         for (Factory f: current_Factories) {
+            System.out.println("Before: " + f.getAffinity_value());
             f.evaluate_affinity();
             System.out.println(f.getAffinity_value());
         }
@@ -89,7 +89,7 @@ public class Layout{
      */
     public synchronized Factory pickRandom() throws ExecutionException, InterruptedException {
 
-        System.out.println("size in pickRandom: " + current_Factories.size());
+//        System.out.println("size in pickRandom: " + current_Factories.size());
         if (current_Factories.isEmpty()) return null;
 
         int randomIndex = new Random().nextInt(current_Factories.size());
@@ -115,7 +115,7 @@ public class Layout{
 
             while (index < count_cFactories) {
 
-                int gaOperationRandom = ThreadLocalRandom.current().nextInt(200);
+                int gaOperationRandom = ThreadLocalRandom.current().nextInt(20);
 //                int gaOperationRandom = 0;
 
                 Callable<Factory> task = () -> {
@@ -126,12 +126,12 @@ public class Layout{
                     try {
                         if (gaOperationRandom != 0) {
                             // Mutation operation
-                            System.out.println("Mutation operation is going");
+//                            System.out.println("Mutation operation is going");
                             factory = requestMutationOperation(pickRandom());
                         } else {
                             // Crossover operation
-//                            System.out.println("Crossover operation is going");
-//                            factory = requestCrossOverOperation(pickRandom(), pickRandom());
+                            System.out.println("Crossover operation is going");
+                            factory = requestCrossOverOperation(pickRandom(), pickRandom());
 
                             // You can choose which factory to return. Here I return the first one
                         }
@@ -163,6 +163,9 @@ public class Layout{
                     .filter(c -> c != null)
                     .collect(Collectors.toList());
 
+            for (Factory f: current_Factories) {
+                f.evaluate_affinity();
+            }
 
             current_Factories.sort(Collections.reverseOrder());
 
@@ -187,7 +190,7 @@ public class Layout{
 
     private void doSelection() {
         if (current_Factories.size() > 64) {
-            current_Factories = current_Factories.subList(0,20);
+            current_Factories = current_Factories.subList(0,64);
         }
     }
 

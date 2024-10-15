@@ -2,7 +2,6 @@ package com.csc375.genetic_algorithm_project1_backend.facilityLayoutProblemSolut
 
 import com.csc375.genetic_algorithm_project1_backend.facilityLayoutProblemSolution.Enum.Station_Type;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

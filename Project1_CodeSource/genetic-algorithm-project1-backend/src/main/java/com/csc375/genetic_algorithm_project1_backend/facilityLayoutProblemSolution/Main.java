@@ -3,7 +3,7 @@ package com.csc375.genetic_algorithm_project1_backend.facilityLayoutProblemSolut
 public class Main {
     static final int num_of_stations = 48;
 
-    static final int num_of_threads = 1;
+    static final int num_of_threads = 64;
     static final int countOfGAOperations = 20000;
 
 

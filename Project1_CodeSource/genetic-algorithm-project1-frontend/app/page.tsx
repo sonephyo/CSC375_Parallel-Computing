@@ -69,9 +69,9 @@ const SubscribingComponent = () => {
             case 1:
                 return "bg-pink-500"
             case 2:
-                return "bg-orange-500"
+                return "bg-emerald-300"
             case 3:
-                return "bg-red-500"
+                return "bg-red-300"
             case 4:
                 return "bg-blue-500"
             default:
@@ -91,12 +91,14 @@ const SubscribingComponent = () => {
                 <div key={index} className="flex flex-row justify-center">
                     {list.map((item, itemIndex) => (
                         <div key={itemIndex}
-                             className={`w-5 h-5 flex justify-center items-center ${colorPicker(item)} border-2 border-black`}>
+                             className={`w-7 h-7 flex justify-center items-center ${colorPicker(item)} border-2 border-black`}>
                             <p>{item}</p>
                         </div>
                     ))}
                 </div>
-            )) : "Empty"}
+            )) : (
+                <div className="flex flex-row justify-center">Operation has not started yet</div>
+            )}
         </div>
     )
 }
@@ -107,7 +109,6 @@ const SendingMessages = () => {
 
     const start = () => {
         if (stompClient) {
-            console.log("Event started")
             stompClient.publish({
                 destination: "/app/start",
             })
@@ -116,7 +117,6 @@ const SendingMessages = () => {
 
     const stop = () => {
         if (stompClient) {
-            console.log("Event stopped")
             stompClient.publish({
                 destination: "/app/stop",
             })
@@ -128,7 +128,7 @@ const SendingMessages = () => {
         display: "flex",
         flexDirection: "column",
     }}>
-        <button onClick={start}>Start Message</button>
+        <button onClick={start}>Start Solving FLP Problem</button>
         <button onClick={stop}>Stop Message</button>
     </div>)
 }

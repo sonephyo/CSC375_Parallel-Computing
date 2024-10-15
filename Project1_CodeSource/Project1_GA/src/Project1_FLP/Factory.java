@@ -52,7 +52,7 @@ public class Factory implements  Comparable<Factory>{
 
         // To prevent recursion overflow
         // Note: Increasing the count_of_recursion more than 10 can lead to stack over flow
-        if (count_of_recursion == 1000) {
+        if (count_of_recursion == 10) {
             return;
         }
 
@@ -79,9 +79,6 @@ public class Factory implements  Comparable<Factory>{
     public void placeStation1(Station station, int row, int col, int count_of_recursion) {
         if (spots[row][col] == 0 && spots[row - 1][col] == 0 && spots[row][col + 1] == 0 && spots[row - 1][col + 1] == 0) {
             spots[row][col] = station.getStation_type_val();
-            spots[row - 1][col] = station.getStation_type_val();
-            spots[row][col + 1] = station.getStation_type_val();
-            spots[row - 1][col + 1] = station.getStation_type_val();
         } else {
             this.assign_station(station, count_of_recursion + 1);
         }
@@ -90,7 +87,6 @@ public class Factory implements  Comparable<Factory>{
         if (spots[row][col] == 0 && spots[row-1][col] == 0 && spots[row-1][col+1] == 0) {
             spots[row][col] = station.getStation_type_val();
             spots[row-1][col] = station.getStation_type_val();
-            spots[row-1][col+1] = station.getStation_type_val();
         } else {
             this.assign_station(station, count_of_recursion + 1);
         }
@@ -153,9 +149,7 @@ public class Factory implements  Comparable<Factory>{
             }
         }
         if (result == Double.POSITIVE_INFINITY) {
-
-            double testagain = this.evaluate_affinity();
-            throw new IllegalArgumentException("The value is infinity");
+            return 0;
         }
         this.affinity_value = result;
         return result;
@@ -225,6 +219,8 @@ public class Factory implements  Comparable<Factory>{
 
     private void visit_connected_stations(int[][] matrix, int row, int col,ClusterStation clusterStation) {
 
+        try {
+
         if (row < 0 || row >= matrix.length || col < 0 || col >= matrix[0].length) {
             return ;
         }
@@ -239,7 +235,11 @@ public class Factory implements  Comparable<Factory>{
         visit_connected_stations(matrix, row, col+1, clusterStation);
         visit_connected_stations(matrix, row, col-1, clusterStation);
         visit_connected_stations(matrix, row-1, col, clusterStation);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     public Factory doMutation() throws Exception {
         Set<Station_Type> allStations = this.clusterStation_HashMap.keySet();
         if (allStations.isEmpty()) {
@@ -303,22 +303,22 @@ public class Factory implements  Comparable<Factory>{
         Station_Type station_type = Station_Type.getStation_Type(clusterStation.get_value_of_Station_type());
 //        System.out.println("random placement done for " + station_type);
         if (station_type == Station_Type.TypeA) {
-            int countOfLoop = clusterStation.getCoordinates().size() / 4;
+            int countOfLoop = clusterStation.getCoordinates().size() + 1;
             for (int i = 0; i < countOfLoop; i++) {
                 assign_station(new Station(station_type), -1000);
             }
         } else if (station_type == Station_Type.TypeB) {
-            int countOfLoop = clusterStation.getCoordinates().size() / 3;
+            int countOfLoop = clusterStation.getCoordinates().size() / 2 + 1;
             for (int i = 0; i < countOfLoop; i++) {
                 assign_station(new Station(station_type), -1000);
             }
         } else if (station_type == Station_Type.TypeC) {
-            int countOfLoop = clusterStation.getCoordinates().size() / 3;
+            int countOfLoop = clusterStation.getCoordinates().size() / 3 + 1;
             for (int i = 0; i < countOfLoop; i++) {
                 assign_station(new Station(station_type), -1000);
             }
         } else if (station_type == Station_Type.TypeD) {
-            int countOfLoop = clusterStation.getCoordinates().size() / 4;
+            int countOfLoop = clusterStation.getCoordinates().size() / 4 + 1;
             for (int i = 0; i < countOfLoop; i++) {
                 assign_station(new Station(station_type), -1000);
             }
@@ -329,7 +329,8 @@ public class Factory implements  Comparable<Factory>{
 
 
     public Factory doCrossover(Factory other_factory) throws Exception {
-        int[][] other_factory_spots = other_factory.getSpots();
+        Factory copy_this_factory = new Factory(this);
+        Factory copy_other_factory = new Factory(other_factory);
 
         ThreadLocalRandom random = ThreadLocalRandom.current();
         int randomSegmentation = random.nextInt(0,4);
@@ -355,60 +356,81 @@ public class Factory implements  Comparable<Factory>{
             colEnd = spots[0].length;
         }
 
-        int[][] temp = new int[rowEnd-rowStart][colEnd-colStart];
-
-        Factory original_factory = new Factory(this);
-        Factory original_otherFactory = new Factory(other_factory);
-
+        int[][] copy_this_factory_spots = copy_this_factory.spots;
+        int[][] copy_other_factory_spots = copy_other_factory.spots;
 
         for (int i = rowStart; i < rowEnd; i++) {
             for (int j = colStart; j < colEnd; j++) {
-                temp[i-rowStart][j-colStart] = spots[i][j];
-                spots[i][j] = other_factory_spots[i][j];
-                other_factory_spots[i][j] = temp[i-rowStart][j-colStart];
+                // Use the deep copies for swapping
+                int temp = copy_this_factory_spots[i][j];
+                copy_this_factory_spots[i][j] = copy_other_factory_spots[i][j];
+                copy_other_factory_spots[i][j] = temp;
             }
         }
-        this.setSpots(spots);
-        other_factory.setSpots(other_factory_spots);
 
+        modifyingRuleBreakingStation(copy_this_factory_spots, copy_this_factory);
+        modifyingRuleBreakingStation(copy_other_factory_spots, copy_other_factory);
 
-//        System.out.println("this factory spots affinity : " + this.getAffinity_value());
-//        System.out.println("Other factory spots affinity : " + other_factory.getAffinity_value());
+        copy_other_factory.evaluate_affinity();
+        copy_this_factory.evaluate_affinity();
 
+        Factory maxAffinityValueFactory = copy_this_factory;
 
-//        System.out.println("selection: " + randomSegmentation);
-//        System.out.println("rowStart: " + rowStart + ", colStart: " + colStart + ", rowEnd: " + rowEnd + ", colEnd: " + colEnd);
-//        for (int[] i: spots) {
-//            System.out.println(Arrays.toString(i));
-//        }
-//
-//        System.out.println("----");
-//        for (int[] i: other_factory_spots) {
-//            System.out.println(Arrays.toString(i));
-//        }
-
-        this.doMutation();
-        other_factory.doMutation();
-
-//        System.out.println("Affinity value");
-//        System.out.println("original this affinity value: " + original_factory.getAffinity_value());
-//        System.out.println("original other factory affinity value: " + original_otherFactory.getAffinity_value());
-//        System.out.println("modified this affinity value: " + this.getAffinity_value());
-//        System.out.println("other modified factory affinity value: " + other_factory.getAffinity_value());
-
-        Factory maxAffinityValueFactory = original_factory;
-
-        if (maxAffinityValueFactory.getAffinity_value() < original_otherFactory.getAffinity_value()) {
-            maxAffinityValueFactory = original_otherFactory;
-        } else if (maxAffinityValueFactory.getAffinity_value() < this.getAffinity_value()) {
-            maxAffinityValueFactory = this;
-        } else if (maxAffinityValueFactory.getAffinity_value() < other_factory.getAffinity_value()) {
-            maxAffinityValueFactory = other_factory;
+        if (maxAffinityValueFactory.getAffinity_value() < copy_other_factory.getAffinity_value()) {
+            maxAffinityValueFactory = copy_other_factory;
         }
 
-        System.out.println("max affinity value factory: " + maxAffinityValueFactory.getAffinity_value());
+        System.out.println("original: " + maxAffinityValueFactory.getAffinity_value());
+        System.out.println("recalculated: " + maxAffinityValueFactory.evaluate_affinity());
+        System.out.println("---");
+
 
         return maxAffinityValueFactory;
+    }
+
+    private void modifyingRuleBreakingStation(int[][] matrix, Factory factory) throws Exception {
+        int[][] copiedMatrix = Arrays.stream(matrix)
+                .map(int[]::clone) // Clone each row
+                .toArray(int[][]::new);
+
+        try {
+
+        for (int i = 0; i < copiedMatrix.length; i++) {
+            for (int j = 0; j < copiedMatrix[i].length; j++) {
+                if (copiedMatrix[i][j] != 0) {
+                    ClusterStation clusterStation = new ClusterStation(copiedMatrix[i][j]);
+                    factory.visit_connected_stations(copiedMatrix, i, j, clusterStation);
+                    factory.evaluateValidityOfClusterStation(clusterStation);
+                }
+            }
+        }
+        } catch (Exception e) {
+            throw new Exception(e);
+        }
+
+
+    }
+
+    public void evaluateValidityOfClusterStation(ClusterStation clusterStation) {
+        int stationValue = clusterStation.get_value_of_Station_type();
+
+        if (stationValue == 2) {
+            if (clusterStation.getCoordinates().size() % 2 != 0) {
+                destroyCoordinatesOfClusterStation(clusterStation);
+                randomPlacementOfDestroyedCoordinates(clusterStation);
+            }
+        } else if (stationValue == 3) {
+
+            if (clusterStation.getCoordinates().size() % 3 != 0) {
+                destroyCoordinatesOfClusterStation(clusterStation);
+                randomPlacementOfDestroyedCoordinates(clusterStation);
+            }
+        } else if (stationValue == 4) {
+            if (clusterStation.getCoordinates().size() % 4 != 0) {
+                destroyCoordinatesOfClusterStation(clusterStation);
+                randomPlacementOfDestroyedCoordinates(clusterStation);
+            }
+        }
     }
 
     public void setSpots(int[][] spots) {
@@ -434,27 +456,29 @@ public class Factory implements  Comparable<Factory>{
 //        factory1.spots = new int[][]{
 //                {1, 1, 0, 4, 0, 0, 0},
 //                {1, 1, 4, 4, 4, 0, 0},
-//                {0, 0, 0, 2, 2, 0, 3},
 //                {0, 0, 0, 2, 0, 0, 3},
-//                {0, 2, 0, 0, 1, 0, 3},
-//                {4, 0, 0, 3, 0, 0, 0},
+//                {0, 0, 0, 2, 0, 0, 3},
+//                {0, 2, 0, 0, 1, 1, 3},
+//                {0, 2, 0, 0, 1, 1, 0},
 //                {0, 0, 0, 0, 0, 0, 0}
 //        };
 //
 //        Factory factory2 = new Factory(7);
 //        factory2.spots = new int[][]{
-//                {0, 1, 0, 0, 0, 2, 0},
-//                {0, 0, 3, 0, 0, 0, 0},
-//                {0, 0, 0, 4, 0, 0, 1},
-//                {0, 0, 0, 0, 3, 0, 0},
-//                {2, 0, 0, 0, 0, 4, 0},
-//                {0, 3, 0, 0, 1, 0, 0},
-//                {0, 0, 0, 0, 0, 0, 0}
+//                {1, 1, 2, 0, 0, 1, 1},
+//                {1, 1, 2, 0, 0, 1, 1},
+//                {0, 0, 0, 3, 0, 4, 0},
+//                {2, 0, 0, 3, 4, 4, 4},
+//                {2, 3, 0, 3, 0, 0, 0},
+//                {0, 3, 0, 2, 0, 0, 0},
+//                {0, 3, 0, 2, 0, 0, 0}
 //        };
+//
+//
 //        factory1.create_cluster(factory1.spots);
 //        factory2.create_cluster(factory2.spots);
 //
-//        factory1.doCrossover(factory1);
+//        Factory newFactory = factory1.doCrossover(factory2);
 //
 //        System.out.println("result");
 //        for (int[] i: factory1.spots) {
@@ -465,39 +489,11 @@ public class Factory implements  Comparable<Factory>{
 //        for (int[] i: factory2.spots) {
 //            System.out.println(Arrays.toString(i));
 //        }
-
-        int[][] array = {
-                {3, 3, 3, 3, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 3, 0, 0, 0},
-                {0, 3, 3, 3, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 3, 1, 1, 3, 0, 0, 0},
-                {0, 3, 3, 3, 0, 0, 0, 0, 0, 2, 2, 3, 0, 0, 2, 2, 0, 3, 1, 1, 3, 0, 0, 0},
-                {0, 0, 3, 2, 2, 0, 1, 1, 0, 2, 0, 3, 3, 0, 2, 0, 0, 3, 0, 0, 0, 0, 1, 1},
-                {0, 0, 3, 2, 1, 1, 1, 0, 2, 2, 0, 3, 3, 2, 2, 3, 0, 0, 0, 2, 2, 0, 1, 1},
-                {0, 4, 3, 0, 1, 1, 0, 0, 0, 0, 2, 2, 3, 2, 0, 3, 0, 0, 0, 2, 1, 0, 0, 0},
-                {4, 4, 4, 0, 3, 3, 0, 0, 0, 0, 2, 2, 2, 2, 0, 3, 0, 0, 0, 0, 1, 1, 0, 0},
-                {0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2},
-                {1, 1, 0, 0, 3, 3, 0, 2, 2, 0, 2, 0, 0, 0, 3, 0, 0, 0, 1, 1, 2, 0, 2, 0},
-                {1, 1, 3, 0, 0, 0, 0, 2, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 0, 0},
-                {4, 0, 3, 1, 1, 0, 2, 2, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0},
-                {2, 0, 3, 1, 1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3},
-                {2, 0, 3, 0, 2, 2, 0, 0, 2, 2, 0, 0, 0, 0, 4, 0, 0, 0, 3, 0, 0, 0, 0, 3},
-                {0, 0, 3, 0, 2, 0, 0, 0, 0, 3, 3, 0, 0, 4, 4, 4, 0, 0, 3, 0, 0, 0, 0, 3},
-                {0, 0, 3, 0, 2, 3, 1, 0, 0, 3, 3, 3, 0, 2, 2, 0, 0, 0, 3, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 3, 1, 1, 0, 3, 3, 3, 0, 0, 0, 2, 0, 0, 4, 0, 0, 0, 0, 0},
-                {0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 4, 4, 4, 0, 0, 0, 0},
-                {2, 2, 0, 3, 0, 3, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 3},
-                {2, 2, 2, 3, 0, 3, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 2, 2, 0, 3, 2, 0, 0, 3},
-                {0, 2, 3, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 2, 0, 0, 0, 0, 2, 2, 3},
-                {0, 0, 3, 3, 0, 0, 3, 3, 2, 2, 0, 3, 3, 3, 3, 3, 0, 0, 0, 3, 0, 2, 2, 2},
-                {0, 0, 3, 3, 0, 0, 3, 0, 2, 0, 0, 0, 3, 3, 3, 0, 0, 0, 4, 3, 0, 0, 1, 1},
-                {2, 2, 0, 3, 2, 2, 0, 4, 2, 0, 4, 3, 3, 4, 3, 2, 2, 4, 4, 4, 0, 4, 1, 1},
-                {2, 0, 0, 0, 2, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 2, 0, 0, 0, 0, 4, 4, 4, 0}
-        };
-        Factory f = new Factory(48);
-
-        f.spots = array;
-        f.evaluate_affinity();
-
-        System.out.println(f.getAffinity_value());
+//
+//        System.out.println("----");
+//        for (int[] i: newFactory.spots) {
+//            System.out.println(Arrays.toString(i));
+//        }
 
     }
 

@@ -7,6 +7,9 @@
     <list default="true" id="a6d30bcf-b7db-42f5-9743-0706643f3cd5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Factory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Layout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project1_FLP/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project1_FLP/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/controllers/WebSocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/controllers/WebSocketController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/ClusterStation.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/ClusterStation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Factory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Factory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/../genetic-algorithm-project1-backend/src/main/java/com/csc375/genetic_algorithm_project1_backend/facilityLayoutProblemSolution/Layout.java" afterDir="false" />
@@ -112,7 +115,7 @@
       <workItem from="1728323082208" duration="1603000" />
       <workItem from="1728569076477" duration="830000" />
       <workItem from="1728669960377" duration="15680000" />
-      <workItem from="1728877666751" duration="7669000" />
+      <workItem from="1728877666751" duration="21396000" />
     </task>
     <servers />
   </component>
@@ -128,14 +131,44 @@
           <option name="timeStamp" value="129" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
-          <line>161</line>
-          <option name="timeStamp" value="200" />
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>482</line>
+          <option name="timeStamp" value="206" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
-          <url>file://$PROJECT_DIR$/src/Project1_FLP/Layout.java</url>
-          <line>154</line>
-          <option name="timeStamp" value="201" />
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>407</line>
+          <option name="timeStamp" value="236" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>238</line>
+          <option name="timeStamp" value="237" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>370</line>
+          <option name="timeStamp" value="239" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>391</line>
+          <option name="timeStamp" value="240" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>402</line>
+          <option name="timeStamp" value="242" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>400</line>
+          <option name="timeStamp" value="243" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Project1_FLP/Factory.java</url>
+          <line>401</line>
+          <option name="timeStamp" value="244" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-defaults>

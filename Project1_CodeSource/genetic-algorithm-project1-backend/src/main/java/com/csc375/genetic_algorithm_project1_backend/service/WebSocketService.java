@@ -14,8 +14,8 @@ public class WebSocketService {
 
     static final int num_of_stations = 48;
 
-    static final int num_of_threads = 1;
-    static final int countOfGAOperations = 2000;
+    static final int num_of_threads = 64;
+    static final int countOfGAOperations = 200;
 
 
     private final SimpMessagingTemplate messagingTemplate;
