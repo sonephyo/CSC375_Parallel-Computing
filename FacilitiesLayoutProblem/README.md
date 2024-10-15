@@ -13,7 +13,21 @@ https://github.com/user-attachments/assets/10d54301-d5a2-49f0-925b-7727804dfe61
 
 ---
 
-### Requirements
+## Installation
+**Frontend**
+1. go to the directory of the frontend folder and "*npm install*"
+2. run the program by "*npm run dev*"
+
+**Backend**
+1. open the backend folder using *IntellJ* IDE.
+2. run the program
+
+**Browser**
+1. After completing above steps, open a browser and use the frontend url (default - [http://localhost:3000](http://localhost:3000))
+
+---
+
+### Guidelines
 *Stations and Spots:*
 
 - N: Number of stations (minimum of 48).
