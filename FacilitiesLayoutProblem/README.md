@@ -78,19 +78,19 @@ _Convergence Criteria:_
 ## Station Placement
 
 The four station types represents the following structure.
-1) Type A - 2x2 matrix
+1) Type A - 1x1 matrix
 
 |   | Type A |   |
 |---|--------|---|
-| 0 | 1      | 1 |
-| 0 | 1      | 1 |
 | 0 | 0      | 0 |
-2) Type B - L block matrix
+| 0 | 1      | 0 |
+| 0 | 0      | 0 |
+2) Type B - 2x1 block matrix
 
 |   | Type B |   |
 |---|--------|---|
 | 0 | 2      | 0 |
-| 0 | 2      | 2 |
+| 0 | 2      | 0 |
 | 0 | 0      | 0 |
 
 3) Type C - 3x1 matrix
