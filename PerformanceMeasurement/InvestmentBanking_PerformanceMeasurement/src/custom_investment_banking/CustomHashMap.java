@@ -138,17 +138,41 @@ public class CustomHashMap<K,V> {
         }
     }
 
+    public boolean containsKey(K key) {
+        lock.readLock().lock();
+        try {
+            return this.keyArrayList().contains(key.toString());
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+
 
     public int getSize() {
-        return size;
+        lock.readLock().lock();
+        try {
+            return size;
+        } finally {
+            lock.readLock().unlock();
+        }
     }
 
     public float getLoadFactor() {
-        return loadFactor;
+        lock.readLock().lock();
+        try {
+            return loadFactor;
+        } finally {
+            lock.readLock().unlock();
+        }
     }
 
     public int getCapacity() {
-        return capacity;
+        lock.readLock().lock();
+        try {
+            return capacity;
+        } finally {
+            lock.readLock().unlock();
+        }
     }
 }
 

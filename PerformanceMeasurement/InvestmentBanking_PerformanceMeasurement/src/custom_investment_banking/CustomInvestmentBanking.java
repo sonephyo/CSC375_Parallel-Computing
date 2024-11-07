@@ -1,5 +1,6 @@
 package custom_investment_banking;
 
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -7,11 +8,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CustomInvestmentBanking {
 
-    private ConcurrentHashMap<String, Double> nameToMoneyHashMap;
+    private final CustomHashMap<String, Double> nameToMoneyHashMap;
 
 
     public CustomInvestmentBanking() {
-        this.nameToMoneyHashMap = new ConcurrentHashMap<>(16, 0.75f, 16);
+        this.nameToMoneyHashMap = new CustomHashMap<>();
     }
 
     public boolean containsCustomer(String key) {
@@ -57,7 +58,7 @@ public class CustomInvestmentBanking {
     }
 
     public Set<String> getAllCustomers() {
-        return nameToMoneyHashMap.keySet();
+        return new HashSet<>(nameToMoneyHashMap.keyArrayList());
     }
 
 
