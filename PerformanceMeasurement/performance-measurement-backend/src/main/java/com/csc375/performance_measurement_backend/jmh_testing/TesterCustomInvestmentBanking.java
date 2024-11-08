@@ -1,19 +1,20 @@
-package com.csc375.performance_measurement_backend.performance_measurement_workers.jmh_testing;
+package com.csc375.performance_measurement_backend.jmh_testing;
 
 
-import com.csc375.performance_measurement_backend.performance_measurement_workers.custom_investment_banking.CustomHashMap;
+import com.csc375.performance_measurement_backend.performance_measurement_workers.custom_investment_banking.CustomInvestmentBanking;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TesterCustomHashMap {
+public class TesterCustomInvestmentBanking {
+
     public static void main(String[] args) throws InterruptedException {
-        CustomHashMap<String, Double> banking = new CustomHashMap<>();
+        CustomInvestmentBanking banking = new CustomInvestmentBanking();
 
         Runnable writingNewUsers = () -> {
             Random r = ThreadLocalRandom.current();
             for (int i = 0; i < 1000; i++) {
-                banking.put("User" + i, r.nextDouble(100,300));
+                banking.registerUser("User" + i, r.nextDouble(100,300));
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -23,14 +24,15 @@ public class TesterCustomHashMap {
         };
 
         Runnable readingUsers = () -> {
+            Random r = ThreadLocalRandom.current();
             for (int i = 0; i < 5; i++) {
-                if (banking.keyArrayList().isEmpty()) {
+                if (banking.getAllCustomers().isEmpty()) {
                     System.out.println("No user in the banking yet");
                 } else {
-                    System.out.println("Current userPool Size: " + banking.keyArrayList().size());
-                    String[] temp = banking.keyArrayList().toArray(new String[0]);
+                    System.out.println("Current userPool Size: " + banking.getAllCustomers().size());
+                    String[] temp = banking.getAllCustomers().toArray(new String[0]);
                     String user = temp[ThreadLocalRandom.current().nextInt(temp.length)];
-                    Double value = banking.get(user);
+                    Double value = banking.getMoney(user);
                     System.out.println(user + " has " + value);
                 }
                 try {
@@ -47,11 +49,7 @@ public class TesterCustomHashMap {
         Thread t2 = new Thread(readingUsers);
         t1.start();
         t2.start();
-        t1.join();
-        t2.join();
-        System.out.println("Size: " + banking.getSize());
-        System.out.println("Capacity: " + banking.getCapacity());
+
+
     }
 }
-
-
