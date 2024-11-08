@@ -1,11 +1,10 @@
-package com.csc375.performance_measurement_backend.testing_tbd;
+package com.csc375.performance_measurement_backend.jmh_testing;
 
-import org.openjdk.jmh.Main;
+import com.csc375.performance_measurement_backend.performance_measurement_workers.java_investment_banking.JavaInvestmentBanking;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.results.BenchmarkResult;
 import org.openjdk.jmh.results.Result;
 import org.openjdk.jmh.results.RunResult;
-import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -15,14 +14,12 @@ import org.openjdk.jmh.runner.options.TimeValue;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class BenchmarkRunner {
     public static void main(String[] args) throws IOException, RunnerException {
 
         Options options = new OptionsBuilder()
-                .include(".*CalculatorBenchmark.*") // Specify which benchmarks to include
+                .include("com.csc375.performance_measurement_backend.jmh_testing.JavaInvestmentBankingBenchmark.*")
                 .warmupIterations(1)  // 1 warmup iteration
                 .warmupTime(TimeValue.seconds(1))  // 3 seconds warmup time
                 .measurementIterations(10)  // 3 measurement iterations
