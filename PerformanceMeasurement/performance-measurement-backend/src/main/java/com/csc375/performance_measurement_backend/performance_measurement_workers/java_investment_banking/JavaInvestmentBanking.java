@@ -82,7 +82,6 @@ public class JavaInvestmentBanking {
             }
         };
 
-
         for (int i = 0; i < 1; i++) {
             Thread t1 = new Thread(task1);
             t1.setName("Thread" + (i+1));
@@ -91,9 +90,6 @@ public class JavaInvestmentBanking {
         }
 
         System.out.println(banking.getAllCustomers());
-
-
-
         System.out.println(banking.nameToMoneyHashMap);
     }
 }
