@@ -66,13 +66,6 @@ public class CustomHashMap<K,V> {
 
         size++;
 
-        if (size > loadFactor * capacity) {
-            System.out.println("doing resize");
-            System.out.println("size: " + size);
-            System.out.println("Capacity Then: " + capacity);
-            resize();
-            System.out.println("Capacity Now: " + capacity);
-        }
         } finally {
             lock.writeLock().unlock();
         }

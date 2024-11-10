@@ -46,13 +46,15 @@ public class JavaInvestmentBankingBenchmark {
 
     @Benchmark
     @Group("concurrentHashMap")
-    @GroupThreads(50)
+    @GroupThreads(20)
     public Double getMoneyBenchMark() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
         return javaInvestmentBanking.getMoney("User: " + random.nextInt());
     }
 
     @Benchmark
+    @Group("concurrentHashMap")
+    @GroupThreads(30)
     public Set<String> getAllCustomersBenchmark() {
         return javaInvestmentBanking.getAllCustomers();
     }
