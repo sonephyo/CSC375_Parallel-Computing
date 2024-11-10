@@ -4,9 +4,7 @@ package com.csc375.performance_measurement_backend.jmh_testing;
 import com.csc375.performance_measurement_backend.performance_measurement_workers.custom_investment_banking.CustomInvestmentBanking;
 import org.openjdk.jmh.annotations.*;
 
-import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 @State(Scope.Thread)
@@ -23,7 +21,7 @@ public class CustomInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("customConcurrentHashMap")
     @GroupThreads(2)
     public boolean containsCustomerBenchmark() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -31,7 +29,7 @@ public class CustomInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("customConcurrentHashMap")
     @GroupThreads(2)
     public String putMoneyBenchMark() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -39,7 +37,7 @@ public class CustomInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("customConcurrentHashMap")
     @GroupThreads(2)
     public String registerUserBenchmark() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -47,7 +45,7 @@ public class CustomInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("customConcurrentHashMap")
     @GroupThreads(50)
     public Double getMoneyBenchMark() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -55,7 +53,7 @@ public class CustomInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("customConcurrentHashMap")
     @GroupThreads(30)
     public Set<String> getAllCustomersBenchmark() {
         return customInvestmentBanking.getAllCustomers();

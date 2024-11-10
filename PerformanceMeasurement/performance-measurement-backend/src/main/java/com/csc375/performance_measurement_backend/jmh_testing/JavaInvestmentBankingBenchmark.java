@@ -21,7 +21,7 @@ public class JavaInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("javaConcurrentHashMap")
     @GroupThreads(2)
     public boolean containsCustomerBenchmark() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -29,7 +29,7 @@ public class JavaInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("javaConcurrentHashMap")
     @GroupThreads(2)
     public String putMoneyBenchMark() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -37,7 +37,7 @@ public class JavaInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("javaConcurrentHashMap")
     @GroupThreads(2)
     public String registerUserBenchmark() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -45,7 +45,7 @@ public class JavaInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("javaConcurrentHashMap")
     @GroupThreads(20)
     public Double getMoneyBenchMark() {
         ThreadLocalRandom random = ThreadLocalRandom.current();
@@ -53,7 +53,7 @@ public class JavaInvestmentBankingBenchmark {
     }
 
     @Benchmark
-    @Group("concurrentHashMap")
+    @Group("javaConcurrentHashMap")
     @GroupThreads(30)
     public Set<String> getAllCustomersBenchmark() {
         return javaInvestmentBanking.getAllCustomers();
