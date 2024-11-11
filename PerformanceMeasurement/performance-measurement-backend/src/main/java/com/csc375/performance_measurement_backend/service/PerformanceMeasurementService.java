@@ -84,70 +84,14 @@ public class PerformanceMeasurementService {
             }
             System.out.println("resultFormatBenchMarkHashMap:" + resultFormatBenchMarkHashMap);
 
-            IndividualBenchMark individualBenchMark = new IndividualBenchMark(resultFormatBenchMarkHashMap);
-            System.out.println("Still executed");
-            individualBenchMarkHashMap.put("test", individualBenchMark);
-//
+            IndividualBenchMark individualBenchMark = new IndividualBenchMark();
+            individualBenchMark.setResults(resultFormatBenchMarkHashMap);
 
-
-//            System.out.println("------->>>>>");
-//            // Print primary result
-//            System.out.println(primaryResult.getLabel());
-//            System.out.println(primaryResult.getRole());
-//            System.out.println("Primary Result: " + primaryResult);
-//            // Printing score
-//            System.out.println("Score: " + primaryResult.getScore());
-//
-//            // Printing confidence intervals for the score
-//            System.out.println("Score Confidence Intervals: " + Arrays.toString(primaryResult.getScoreConfidence()));
-//
-//            // Printing error in the score
-//            System.out.println("Score Error: " + primaryResult.getScoreError());
-//            System.out.println("Sample count:  " + primaryResult.getSampleCount() );
-//
-//            // Printing score unit
-//            System.out.println("Score Unit: " + primaryResult.getScoreUnit());
-//
-//            // Printing confidence interval at 50% level (e.g., 0.5)
-//            System.out.println("Confidence Interval at 50%: " + Arrays.toString(primaryResult.getStatistics().getConfidenceIntervalAt(0.5)));
-//
-//            // Printing mean value of the score
-//            System.out.println("Mean: " + primaryResult.getStatistics().getMean());
-//
-//            // Printing minimum value of the score
-//            System.out.println("Minimum: " + primaryResult.getStatistics().getMin());
-//
-//            // Printing maximum value of the score
-//            System.out.println("Maximum: " + primaryResult.getStatistics().getMax());
-//
-//            // Printing standard deviation of the score
-//            System.out.println("Standard Deviation: " + primaryResult.getStatistics().getStandardDeviation());
-//
-//            // Printing variance of the score
-//            System.out.println("Variance: " + primaryResult.getStatistics().getVariance());
-
-
-            // Print aggregated result
-//            BenchmarkResult aggregatedResult = runResult.getAggregatedResult();
-//            System.out.println("Aggregated Result: " + aggregatedResult);
-
-            // Print each benchmark result in the collection
-//            Collection<BenchmarkResult> individualBenchMarkHashMap = runResult.getBenchmarkResults();
-//            System.out.println("Benchmark Results:");
-//            for (BenchmarkResult result : individualBenchMarkHashMap) {
-//                printBenchmarkResult(result);
-//            }
-
-            // Print each secondary result in the map
-//            Map<String, Result> secondaryResults = runResult.getSecondaryResults();
-//            System.out.println("Secondary Results:");
-//            for (Map.Entry<String, Result> entry : secondaryResults.entrySet()) {
-//                System.out.println("Key: " + entry.getKey() + ", Result: " + entry.getValue());
-//            }
+            individualBenchMarkHashMap.put(primaryResult.getLabel() +  runResult.getParams().getParam("numOfStartData"), individualBenchMark);
         });
 
+        System.out.println(individualBenchMarkHashMap);
         return individualBenchMarkHashMap;
-
     }
 
     private static void printBenchmarkResult(BenchmarkResult result) {

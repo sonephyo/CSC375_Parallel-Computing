@@ -10,19 +10,24 @@ import lombok.Setter;
 
 import java.util.HashMap;
 
-
-@JsonSerialize // This annotation enables serialization for Jackson
-@Getter
-@Setter
 public class IndividualBenchMark {
 
     // The field to store the benchmark results
     private HashMap<String, ResultFormatBenchMark> results;
 
-    // Constructor annotated with @JsonCreator and @JsonProperty to tell Jackson how to deserialize
-    @JsonCreator
-    public IndividualBenchMark(
-            @JsonProperty("results") HashMap<String, ResultFormatBenchMark> results) {
+    public IndividualBenchMark() {
+        this.results = new HashMap<>();
+    }
+
+    public IndividualBenchMark(HashMap<String, ResultFormatBenchMark> results) {
+        this.results = results;
+    }
+
+    public HashMap<String, ResultFormatBenchMark> getResults() {
+        return results;
+    }
+
+    public void setResults(HashMap<String, ResultFormatBenchMark> results) {
         this.results = results;
     }
 }
