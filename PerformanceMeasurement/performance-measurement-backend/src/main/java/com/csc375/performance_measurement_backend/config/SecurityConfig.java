@@ -10,7 +10,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // Apply to all endpoints under /api
+        registry.addMapping("/**") // Apply to all endpoints under /api
                 .allowedOrigins("http://localhost:5173") // Allowed origins
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // Allowed methods
                 .allowedHeaders("*") // Allowed headers
