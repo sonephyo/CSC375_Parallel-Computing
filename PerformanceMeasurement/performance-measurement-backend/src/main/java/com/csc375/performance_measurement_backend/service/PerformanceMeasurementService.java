@@ -29,7 +29,7 @@ public class PerformanceMeasurementService {
                 .include("com.csc375.performance_measurement_backend.jmh_testing.CustomInvestmentBankingBenchmark.*")
                 .warmupIterations(2)  // 1 warmup iteration
                 .warmupTime(TimeValue.milliseconds(100))  // 3 seconds warmup time
-                .measurementIterations(20)
+                .measurementIterations(10)
                 .measurementTime(TimeValue.milliseconds(100))  // 2 seconds measurement time
                 .forks(1)  // Forking 1 separate JVM instance
                 .mode(Mode.Throughput)  // Measure throughput (operations per unit of time)
