@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <title>
+      JMH Benchmark JavaConcurrentHashMap vs CustomConcurrentHashMap
+    </title>
+  </head>
+  <body>
+    <h2>JMH Benchmark JavaConcurrentHashMap vs CustomConcurrentHashMap</h2>
+
+    <div>
+      <div class="imagesRow">
+        <div>
+          <p>ConcurrentHashMapGee100</p>
+          <img
+            src="./images/ConcurrentHashMapGee100.png"
+            alt="ConcurrentHashMapGee100"
+            width="500px"
+          />
+        </div>
+        <div>
+          <p>ConcurrentHashMapLocal100</p>
+          <img
+            src="./images/ConcurrentHashMapLocal100.png"
+            alt="ConcurrentHashMapLocal100"
+            width="500px"
+          />
+        </div>
+      </div>
+      <div class="imagesRow">
+        <div>
+          <p>ConcurrentHashMapGee100</p>
+          <img
+            src="./images/ConcurrentHashMapGee1000.png"
+            alt="ConcurrentHashMapGee100"
+            width="500px"
+          />
+        </div>
+        <div>
+          <p>ConcurrentHashMapLocal100</p>
+          <img
+            src="./images/ConcurrentHashMapLocal1000.png"
+            alt="ConcurrentHashMapLocal100"
+            width="500px"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div id="result"></div>
+
+    <script src="./index.js"></script>
+  </body>
+</html>
