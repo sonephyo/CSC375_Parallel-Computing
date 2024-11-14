@@ -31,7 +31,7 @@ public class PerformanceMeasurementService {
                 .warmupTime(TimeValue.milliseconds(100))  // 3 seconds warmup time
                 .measurementIterations(10)
                 .measurementTime(TimeValue.milliseconds(100))  // 2 seconds measurement time
-                .forks(1)  // Forking 1 separate JVM instance
+                .forks(0)  // Forking 1 separate JVM instance
                 .mode(Mode.Throughput)  // Measure throughput (operations per unit of time)
                 .build();
 
