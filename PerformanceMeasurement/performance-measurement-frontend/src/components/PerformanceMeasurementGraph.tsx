@@ -51,7 +51,8 @@ function PerformanceMeasurementGraph({ data }: { data: BenchMarkData }) {
 
     const maxY = d3.max(filteredData, (d) =>
       Math.max(d.customConcurrentHashMapScore, d.javaConcurrentHashMapScore)
-    );
+    ) || 0;
+    
     const y = d3.scaleLog().domain([1, maxY]).range([height, 0]).base(10);
 
     svg
@@ -98,12 +99,12 @@ function PerformanceMeasurementGraph({ data }: { data: BenchMarkData }) {
         },
       ])
       .join("rect")
-      .attr("x", (d) => x1(d.key))
+      .attr("x", (d) => x1(d.key) || 0)
       .attr("y", (d) => y(d.value))
       .attr("width", x1.bandwidth())
       .attr("height", (d) => height - y(d.value))
-      .attr("fill", (d) => color(d.key))
-      .on("mouseover", (event, d) => {
+      .attr("fill", (d) => color(d.key) as string)
+      .on("mouseover", (_, d) => {
         tooltip
           .style("display", "block")
           .html(`Type: ${d.key}<br>Score: ${d.value}`);
@@ -117,6 +118,8 @@ function PerformanceMeasurementGraph({ data }: { data: BenchMarkData }) {
         tooltip.style("display", "none");
       });
 
+      
+
     const legend = svg
       .append("g")
       .attr("transform", `translate(${width - 400},${-margin.top / 2 - 15})`);
@@ -125,24 +128,24 @@ function PerformanceMeasurementGraph({ data }: { data: BenchMarkData }) {
       .data(["customConcurrentHashMapScore", "javaConcurrentHashMapScore"])
       .enter()
       .append("rect")
-      .attr("x", (d, i) => i * 220)
+      .attr("x", (_, i) => i * 220)
       .attr("y", 0)
       .attr("width", 15)
       .attr("height", 15)
-      .attr("fill", (d) => color(d));
+      .attr("fill", (d) => color(d) as string);
 
     legend
       .selectAll("text")
       .data(["customConcurrentHashMapScore", "javaConcurrentHashMapScore"])
       .enter()
       .append("text")
-      .attr("x", (d, i) => i * 220 + 20)
+      .attr("x", (_, i) => i * 220 + 20)
       .attr("y", 12)
       .text((d) => d)
       .style("font-size", "12px")
       .style("fill", "white")
       .attr("alignment-baseline", "middle");
-  }, []);
+  }, [data]);
 
   return (
     <div>

@@ -7,10 +7,11 @@ import PerformanceMeasurementGraph2 from "./components/PerformanceMeasurementGra
 import ReactLoading from "react-loading";
 import BenchMarkTable from "./components/BenchMarkTable";
 import { BenchMarkData } from "./data/dummyData";
+import { geeData } from "./data/geeData";
 
 function App() {
   const [inProcess, setInProcess] = useState<boolean>(false);
-  const [data, setdata] = useState<null | BenchMarkData>(null);
+  const [data, setdata] = useState<null | BenchMarkData>(geeData);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

@@ -10,12 +10,7 @@ export interface BenchmarkResult {
 }
 
 export interface BenchmarkResults {
-  getMoneyBenchMark: BenchmarkResult;
-  getAllCustomersBenchmark: BenchmarkResult;
-  putMoneyBenchMark: BenchmarkResult;
-  primaryResult: BenchmarkResult;
-  registerUserBenchmark: BenchmarkResult;
-  containsCustomerBenchmark: BenchmarkResult;
+  [key: string]: BenchmarkResult;
 }
 
 export interface ConcurrentHashMapData {
@@ -23,12 +18,8 @@ export interface ConcurrentHashMapData {
 }
 
 export interface BenchMarkData {
-  customConcurrentHashMap10: ConcurrentHashMapData;
-  javaConcurrentHashMap1000: ConcurrentHashMapData;
-  javaConcurrentHashMap10: ConcurrentHashMapData;
-  customConcurrentHashMap1000: ConcurrentHashMapData;
+  [key: string]: ConcurrentHashMapData;
 }
-
 
 export const dummyData: BenchMarkData = {
   customConcurrentHashMap10: {
