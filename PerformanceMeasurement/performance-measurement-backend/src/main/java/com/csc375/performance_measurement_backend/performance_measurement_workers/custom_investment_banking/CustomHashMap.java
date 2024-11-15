@@ -49,8 +49,12 @@ public class CustomHashMap<K,V> {
 
         lock.writeLock().lock();
         try {
+            if (size >= capacity * 0.75) {
+                resize();
+            }
 
-        int index = hash(key, capacity);
+
+            int index = hash(key, capacity);
         Node<K,V> node = table[index];
         while (node != null) {
             if (node.key.equals(key)) {
@@ -112,6 +116,7 @@ public class CustomHashMap<K,V> {
             lock.writeLock().unlock();
         }
     }
+
 
     public ArrayList<String> keyArrayList() {
         lock.readLock().lock();

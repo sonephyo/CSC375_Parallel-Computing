@@ -40,6 +40,7 @@ public class BenchmarkRunner {
 
 
         runResults.forEach(runResult -> {
+
             System.out.println("------->>>>>");
             // Print primary result
             Result primaryResult = runResult.getPrimaryResult();
