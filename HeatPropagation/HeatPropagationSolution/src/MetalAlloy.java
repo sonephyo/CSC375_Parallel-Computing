@@ -1,6 +1,5 @@
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Random;
 
 public class MetalAlloy {
 
@@ -42,20 +41,18 @@ public class MetalAlloy {
 
     public double calculateTemperatureAtRegion(int x, int y) {
         double result = 0;
+        int[][] coordinates = {
+                {x, y+1},
+                {x, y-1},
+                {x-1, y},
+                {x+1, y},
+        };
         for (String metal: thermalConstants.keySet()) {
-
-            int[][] coordinates = {
-                    {x, y+1},
-                    {x, y-1},
-                    {x-1, y},
-                    {x+1, y},
-            };
 
             double individualMetalTempTotal = 0;
             for (int[] coord: coordinates) {
                 // Condition for checking the edges
                 if (coord[0] < 0 || coord[1] < 0 || coord[0] >= metalAlloySegments.length || coord[1] >= metalAlloySegments[0].length) continue;
-
                 double metalPercent = metalAlloySegments[coord[0]][coord[1]].getMetalComposition().get(metal + "percent");
                 individualMetalTempTotal += metalAlloyTemps[coord[0]][coord[1]] * metalPercent;
             }
@@ -63,7 +60,14 @@ public class MetalAlloy {
             result += thermalConstants.get(metal) * individualMetalTempTotal;
         }
 
-        return result;
+        double count = 0;
+        for (int[] coord: coordinates) {
+            if (coord[0] < 0 || coord[1] < 0 || coord[0] >= metalAlloySegments.length || coord[1] >= metalAlloySegments[0].length) continue;
+            count++;
+        }
+
+
+        return result/count;
     }
 
     public void doOperation() {
@@ -87,9 +91,11 @@ public class MetalAlloy {
     }
 
     public static void main(String[] args) {
-        MetalAlloy metalTest = new MetalAlloy(100, 200, 0.75, 1.0,1.25);
+        MetalAlloy metalTest = new MetalAlloy(100, -100, 0.75, 1.0,1.25);
 
-        for (int i = 0; i < 10; i++) {
+
+
+        for (int i = 0; i < 10000; i++) {
             System.out.println("--------");
             metalTest.doOperation();
             System.out.println("---------");
