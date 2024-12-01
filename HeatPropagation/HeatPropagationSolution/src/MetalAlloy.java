@@ -1,3 +1,7 @@
+import jdk.incubator.vector.DoubleVector;
+import jdk.incubator.vector.IntVector;
+import jdk.incubator.vector.VectorSpecies;
+
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -8,6 +12,8 @@ public class MetalAlloy {
     private HashMap<String, Double> thermalConstants;
     private double topLeftHeat;
     private double bottomRightHeat;
+    static final VectorSpecies<Double> SPECIES = DoubleVector.SPECIES_PREFERRED;
+
 
     public MetalAlloy(double topLeftHeat, double bottomRightHeat, double metal1ThermalConstant, double metal2ThermalConstant, double metal3ThermalConstant) {
         this.thermalConstants = new HashMap<>();
@@ -17,8 +23,9 @@ public class MetalAlloy {
         this.topLeftHeat = topLeftHeat;
         this.bottomRightHeat = bottomRightHeat;
 
-        int col = 4;
-        int row = col * 4;
+        int row = 3;
+        int col = row * 4;
+
 
         metalAlloyTemps = new double[row][col];
         for (int i = 0; i < row; i++) {
@@ -75,32 +82,39 @@ public class MetalAlloy {
         double[][] resultingArray = new double[metalAlloySegments.length][metalAlloySegments[0].length];
         resultingArray[0][0] = this.topLeftHeat;
         resultingArray[metalAlloySegments.length-1][metalAlloySegments[0].length-1] = this.bottomRightHeat;
+//        for (int i = 0; i < metalAlloySegments.length; i++) {
+//            for (int j = 0; j < metalAlloySegments[0].length; j++) {
+//                if ((i == 0 && j == 0) || (i == metalAlloySegments.length-1 && j == metalAlloySegments[0].length-1)) continue;
+//                resultingArray[i][j] = calculateTemperatureAtRegion(i, j);
+//            }
+//        }
+
         for (int i = 0; i < metalAlloySegments.length; i++) {
-            for (int j = 0; j < metalAlloySegments[0].length; j++) {
-                if ((i == 0 && j == 0) || (i == metalAlloySegments.length-1 && j == metalAlloySegments[0].length-1)) continue;
-                resultingArray[i][j] = calculateTemperatureAtRegion(i, j);
-            }
+            // Implementing SIMD to each row
         }
 
-        for (double[] doubles : resultingArray) {
-            System.out.println(Arrays.toString(doubles));
-        }
+//        for (double[] doubles : resultingArray) {
+//            System.out.println(Arrays.toString(doubles));
+//        }
 
         metalAlloyTemps = resultingArray;
 
     }
 
     public static void main(String[] args) {
-        MetalAlloy metalTest = new MetalAlloy(100, -100, 0.75, 1.0,1.25);
+        MetalAlloy metalTest = new MetalAlloy(100, 100, 0.75, 1.0,1.25);
 
 
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 2; i++) {
             System.out.println("--------");
             metalTest.doOperation();
-            System.out.println("---------");
-
+            for (double[] doubles : metalTest.metalAlloyTemps) {
+                System.out.println(Arrays.toString(doubles));
+            }
         }
+
+
 
     }
 
