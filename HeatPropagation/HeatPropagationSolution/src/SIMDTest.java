@@ -1,5 +1,6 @@
 import jdk.incubator.vector.DoubleVector;
 import jdk.incubator.vector.IntVector;
+import jdk.incubator.vector.VectorOperators;
 import jdk.incubator.vector.VectorSpecies;
 
 import java.util.Arrays;
@@ -50,5 +51,20 @@ public class SIMDTest {
 
 
         System.out.println(Arrays.toString(finalResult));
+
+
+
+        double sum = 0;
+        for (int j = 0; j< arr1.length; j += SPECIES.length()) {
+            var mask = SPECIES.indexInRange(j, arr1.length);
+            var V = IntVector.fromArray(SPECIES, arr1, j, mask);
+            sum += V.reduceLanes(VectorOperators.ADD, mask);
+            System.out.println("---");
+            System.out.println(mask);
+            System.out.println(V);
+        }
+
+        System.out.println("sum: " + sum);
+
     }
 }
