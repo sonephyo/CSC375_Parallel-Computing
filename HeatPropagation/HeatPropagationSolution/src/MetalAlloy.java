@@ -103,7 +103,7 @@ public class MetalAlloy {
             double[] tempValues = new double[length];
             double[] metalPercentages = new double[length];
 
-            // Collect temperature and percentage values
+            // Collect temperature and percentage valuess
             for (int i = 0; i < length; i++) {
                 int[] coord = coordinates[i];
                 tempValues[i] = metalAlloyTemps[coord[0]][coord[1]];
