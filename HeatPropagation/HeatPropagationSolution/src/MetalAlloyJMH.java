@@ -1,12 +1,11 @@
 import jdk.incubator.vector.DoubleVector;
-import jdk.incubator.vector.IntVector;
 import jdk.incubator.vector.VectorOperators;
 import jdk.incubator.vector.VectorSpecies;
 
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class MetalAlloy {
+public class MetalAlloyJMH {
 
     private double[][] metalAlloyTemps;
     private MetalAlloySegment[][] metalAlloySegments;
@@ -16,7 +15,7 @@ public class MetalAlloy {
     static final VectorSpecies<Double> SPECIES = DoubleVector.SPECIES_MAX;
 
 
-    public MetalAlloy(double topLeftHeat, double bottomRightHeat, double metal1ThermalConstant, double metal2ThermalConstant, double metal3ThermalConstant) {
+    public MetalAlloyJMH(double topLeftHeat, double bottomRightHeat, double metal1ThermalConstant, double metal2ThermalConstant, double metal3ThermalConstant) {
         this.thermalConstants = new HashMap<>();
         thermalConstants.put("metal1", metal1ThermalConstant);
         thermalConstants.put("metal2", metal2ThermalConstant);
@@ -24,7 +23,7 @@ public class MetalAlloy {
         this.topLeftHeat = topLeftHeat;
         this.bottomRightHeat = bottomRightHeat;
 
-        int row = 3;
+        int row = 1024;
         int col = row * 4;
 
 
@@ -102,7 +101,7 @@ public class MetalAlloy {
             double[] tempValues = new double[length];
             double[] metalPercentages = new double[length];
 
-            // Collect temperature and percentage valuess
+            // Collect temperature and percentage values
             for (int i = 0; i < length; i++) {
                 int[] coord = coordinates[i];
                 tempValues[i] = metalAlloyTemps[coord[0]][coord[1]];
@@ -114,10 +113,14 @@ public class MetalAlloy {
             DoubleVector tempVector, percentageVector;
             double sum = 0;
 
+            // Loop over the array in chunks of SIMD width (SPECIES.length())
             int i = 0;
             for (; i < SPECIES.loopBound(count); i += SPECIES.length()) {
+                // Load the next chunk of temperature and percentage values into vectors
                 tempVector = DoubleVector.fromArray(SPECIES, tempValues, i);
                 percentageVector = DoubleVector.fromArray(SPECIES, metalPercentages, i);
+
+                // Compute the weighted sum of the current chunk using SIMD
                 sum += tempVector.mul(percentageVector).reduceLanes(VectorOperators.ADD);
             }
 
@@ -126,9 +129,11 @@ public class MetalAlloy {
                 sum += tempValues[i] * metalPercentages[i];
             }
 
+            // Multiply by the thermal constant for the metal and add to the final result
             result += thermalConstants.get(metal) * sum;
         }
 
+        // Return the final temperature result averaged by the number of valid coordinates
         return result / count;
     }
 
@@ -175,21 +180,67 @@ public class MetalAlloy {
     }
 
     public static void main(String[] args) {
-        System.out.println(SPECIES.vectorShape());
-
-        MetalAlloy metalTest = new MetalAlloy(100, 100, 0.75, 1.0,1.25);
+        MetalAlloyJMH metalTest = new MetalAlloyJMH(100, 100, 0.75, 1.0,1.25);
         System.out.println("This is normal");
 
 
 
-        for (int i = 0; i < Integer.MAX_VALUE; i++) {
-//            System.out.println("--------");
-            metalTest.doOperation();
-            if (i % 100000 == 0) System.out.println(i);
+//        for (int i = 0; i < 10000; i++) {
+////            System.out.println("--------");
+//            metalTest.doOperation();
+////            for (double[] doubles : metalTest.metalAlloyTemps) {
+////                System.out.println(Arrays.toString(doubles));
+////            }
+//        }
+
+        int numIterations = 2;
+        long totalTime = 0;
+
+        for (int j = 0; j < numIterations; j++) {
+            long startTime = System.nanoTime(); // Record start time
+
+            // Your loop for the operation being tested
+            for (int i = 0; i < 100; i++) {
+                // metalTest.doOperation(); // This is the actual operation you're testing
+                metalTest.doOperation(); // Uncomment the real operation when ready
+                if (i % 10 == 0) System.out.println("Doing Stuff : Loop " + i);
+            }
+
+            long endTime = System.nanoTime(); // Record end time
+            long duration = endTime - startTime; // Calculate duration in nanoseconds
+            totalTime += duration; // Accumulate total time
+
+            System.out.println("Iteration " + (j + 1) + " took " + duration / 1_000_000 + " ms");
         }
-        for (double[] doubles : metalTest.metalAlloyTemps) {
-            System.out.println(Arrays.toString(doubles));
+
+        // Calculate average time taken per run
+        System.out.println("\nAverage time for " + numIterations + " iterations: " + (totalTime / numIterations) / 1_000_000 + " ms");
+
+        MetalAlloyJMH metalTest1 = new MetalAlloyJMH(100, 100, 0.75, 1.0,1.25);
+        System.out.println("This is SIMD");
+        totalTime = 0;
+
+        for (int j = 0; j < numIterations; j++) {
+            long startTime = System.nanoTime(); // Record start time
+
+            // Your loop for the operation being tested
+            for (int i = 0; i < 100; i++) {
+                metalTest1.doOperationSIMD(); // Uncomment the real operation when ready
+                if (i % 10 == 0) System.out.println("Doing Stuff : Loop " + i);
+            }
+
+            long endTime = System.nanoTime(); // Record end time
+            long duration = endTime - startTime; // Calculate duration in nanoseconds
+            totalTime += duration; // Accumulate total time
+
+            System.out.println("Iteration " + (j + 1) + " took " + duration / 1_000_000 + " ms");
         }
+
+        // Calculate average time taken per run
+        System.out.println("\nAverage time for " + numIterations + " iterations: " + (totalTime / numIterations) / 1_000_000 + " ms");
+
+
+
     }
 
 

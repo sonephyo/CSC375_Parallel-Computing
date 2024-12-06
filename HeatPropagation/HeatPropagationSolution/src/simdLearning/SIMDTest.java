@@ -1,4 +1,5 @@
-import jdk.incubator.vector.DoubleVector;
+package simdLearning;
+
 import jdk.incubator.vector.IntVector;
 import jdk.incubator.vector.VectorOperators;
 import jdk.incubator.vector.VectorSpecies;
@@ -7,7 +8,7 @@ import java.util.Arrays;
 
 public class SIMDTest {
 
-    static final VectorSpecies<Integer> SPECIES = IntVector.SPECIES_PREFERRED;
+    static final VectorSpecies<Integer> SPECIES = IntVector.SPECIES_MAX;
     public static void main(String[] args) {
         int[] arr1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
         int[] arr2 = {21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40};
