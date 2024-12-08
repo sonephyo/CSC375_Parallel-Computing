@@ -1,26 +1,43 @@
-package socketTesting;
+package metalAlloyServer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import metalAlloy.MetalAlloy;
+
+import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.CompletableFuture;
 
-public class EchoClient {
+public class MetalAlloyClient {
     private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     public void startConnection(String ip, int port) throws IOException {
         clientSocket = new Socket(ip, port);
-        out = new PrintWriter(clientSocket.getOutputStream(), true);
-        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        out = new ObjectOutputStream(clientSocket.getOutputStream());
+        in = new ObjectInputStream(clientSocket.getInputStream());
     }
 
-    public String sendMessage(String msg) throws IOException {
-        out.println(msg);
-        String resp = in.readLine();
-        return resp;
+    public MetalAlloy sendMessage(MetalAlloy metalAlloy) throws IOException, ClassNotFoundException {
+        out.writeObject(metalAlloy);
+        return (MetalAlloy) in.readObject();
+    }
+
+    public CompletableFuture<MetalAlloy> sendMessageAsync(MetalAlloy metalAlloy) throws IOException, ClassNotFoundException {
+        // Simulate sending a message asynchronously and getting a response from the server
+        out.writeObject(metalAlloy);
+        return CompletableFuture.supplyAsync(() -> {
+            // Simulate network delay or long computation
+            try {
+                Thread.sleep(5000); // Simulate delay
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            try {
+                return (MetalAlloy) in.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     public void stopConnection() throws IOException {
