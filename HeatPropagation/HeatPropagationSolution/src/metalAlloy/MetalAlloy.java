@@ -1,8 +1,11 @@
+package metalAlloy;
+
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
-public class MetalAlloy {
+public class MetalAlloy implements Serializable {
 
     private double[][] metalAlloyTemps;
     private MetalAlloySegment[][] metalAlloySegments;
@@ -19,7 +22,7 @@ public class MetalAlloy {
         this.topLeftHeat = topLeftHeat;
         this.bottomRightHeat = bottomRightHeat;
 
-        int row = 400;
+        int row = 4;
         int col = row * 4;
 
 
@@ -41,7 +44,7 @@ public class MetalAlloy {
 //                double metal1Percent = min + (max - min) * random.nextDouble();
 //                double metal2Percent = min + (max - min) * random.nextDouble();
 //                double metal3Percent = 1 - metal1Percent - metal2Percent;
-//                metalAlloySegments[i][j] = new MetalAlloySegment(metal1Percent, metal2Percent, metal3Percent);
+//                metalAlloySegments[i][j] = new metalAlloy.MetalAlloySegment(metal1Percent, metal2Percent, metal3Percent);
                 metalAlloySegments[i][j] = new MetalAlloySegment(0.34,0.33,0.33);
             }
         }
@@ -83,7 +86,7 @@ public class MetalAlloy {
         resultingArray[0][0] = this.topLeftHeat;
         resultingArray[metalAlloySegments.length-1][metalAlloySegments[0].length-1] = this.bottomRightHeat;
         for (int i = 0; i < metalAlloySegments.length; i++) {
-            for (int j = 0; j < metalAlloySegments[0].length; j++) {
+            for (int j = 0; j < metalAlloySegments[0].length ; j++) {
                 if ((i == 0 && j == 0) || (i == metalAlloySegments.length - 1 && j == metalAlloySegments[0].length - 1))
                     continue;
                 resultingArray[i][j] = calculateTemperatureAtRegion(i, j);
@@ -93,9 +96,13 @@ public class MetalAlloy {
 
     }
 
+    public double[][] getMetalAlloyTemps() {
+        return metalAlloyTemps;
+    }
+
     public static void main(String[] args) {
         MetalAlloy metalTest = new MetalAlloy(100, 100, 0.75, 1.0,1.25);
-        System.out.println("This is normal");
+
 
 
         double[][] prev = null;
@@ -141,5 +148,12 @@ public class MetalAlloy {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return "MetalAlloy{" +
+                "thermalConstants=" + thermalConstants +
+                ", topLeftHeat=" + topLeftHeat +
+                ", bottomRightHeat=" + bottomRightHeat +
+                '}';
+    }
 }

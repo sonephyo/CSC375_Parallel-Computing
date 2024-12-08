@@ -1,3 +1,5 @@
+package metalAlloy;
+
 import jdk.incubator.vector.DoubleVector;
 import jdk.incubator.vector.VectorOperators;
 import jdk.incubator.vector.VectorSpecies;

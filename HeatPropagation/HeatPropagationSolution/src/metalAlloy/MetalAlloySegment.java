@@ -1,6 +1,9 @@
+package metalAlloy;
+
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class MetalAlloySegment {
+public class MetalAlloySegment implements Serializable {
 
     private HashMap<String, Double> metalComposition;
 
