@@ -1,4 +1,4 @@
-package com.csc375.heat_propagation_backend;
+package com.csc375.heat_propagation_backend.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -18,6 +18,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints (StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws-endpoint").setAllowedOrigins("http://localhost:3000").withSockJS();
+        registry.addEndpoint("/ws-endpoint").setAllowedOrigins("http://localhost:5173").withSockJS();
     }
 }

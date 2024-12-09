@@ -1,4 +1,4 @@
-package com.csc375.genetic_algorithm_project1_backend.controllers;
+package com.csc375.heat_propagation_backend.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("http://localhost:5173")
 public class RestAPIController {
 
     @GetMapping("/")

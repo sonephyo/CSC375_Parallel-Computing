@@ -1,21 +1,15 @@
-package com.csc375.genetic_algorithm_project1_backend.controllers;
+package com.csc375.heat_propagation_backend.controllers;
 
-import com.csc375.genetic_algorithm_project1_backend.models.StartRequest;
-import com.csc375.genetic_algorithm_project1_backend.service.WebSocketService;
+
+import com.csc375.heat_propagation_backend.service.WebSocketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.util.HashMap;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 @Controller
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("http://localhost:5173")
 public class WebSocketController {
 
     private final WebSocketService webSocketService;
@@ -26,8 +20,8 @@ public class WebSocketController {
     }
 
     @MessageMapping("/start")
-    public void startScheduler(@Payload StartRequest startRequest) throws InterruptedException {
-        webSocketService.generateFLPSolution(startRequest);
+    public void startScheduler(@Payload String data) throws InterruptedException {
+        webSocketService.generateFLPSolution(data);
     }
 
     @MessageMapping("/terminate")
