@@ -1,4 +1,4 @@
-package metalAlloy;
+package com.csc375.heat_propagation_backend.metalAlloy;
 
 import java.io.Serializable;
 import java.util.HashMap;

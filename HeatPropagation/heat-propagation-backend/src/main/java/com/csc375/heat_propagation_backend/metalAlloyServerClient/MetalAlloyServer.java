@@ -1,8 +1,12 @@
-package metalAlloyServer;
+package com.csc375.heat_propagation_backend.metalAlloyServerClient;
 
-import metalAlloy.MetalAlloy;
+import com.csc375.heat_propagation_backend.metalAlloy.MetalAlloy;
 
-import java.io.*;
+
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -46,12 +50,17 @@ public class MetalAlloyServer {
                             }
                         } catch (IOException e) {
                             System.err.println("Error closing client socket: " + e.getMessage());
+                            try {
+                                clientSocket.close();
+                            } catch (IOException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
                     }
                 }).start();
             }
         } catch (IOException ex) {
-
+            System.out.println(ex.getMessage());
         }
 
     }
@@ -71,6 +80,7 @@ public class MetalAlloyServer {
             clientSocket.close();
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Error closing client socket: " + e.getMessage());
+            clientSocket.close();
         }
     }
 

@@ -8,6 +8,9 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.io.IOException;
+import java.util.HashMap;
+
 @Controller
 @CrossOrigin("http://localhost:5173")
 public class WebSocketController {
@@ -20,12 +23,13 @@ public class WebSocketController {
     }
 
     @MessageMapping("/start")
-    public void startScheduler(@Payload String data) throws InterruptedException {
-        webSocketService.generateFLPSolution(data);
+    public void startScheduler(@Payload HashMap<String, Double> data) throws Exception {
+        System.out.println(data);
+        webSocketService.startHeatPropagationOperation(data);
     }
 
     @MessageMapping("/terminate")
-    public void stopScheduler() {
+    public void stopScheduler() throws IOException {
         webSocketService.terminateProgram();
     }
 

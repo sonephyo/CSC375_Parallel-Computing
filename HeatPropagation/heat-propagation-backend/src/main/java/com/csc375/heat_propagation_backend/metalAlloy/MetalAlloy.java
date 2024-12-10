@@ -1,9 +1,10 @@
-package metalAlloy;
+package com.csc375.heat_propagation_backend.metalAlloy;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class MetalAlloy implements Serializable {
 
@@ -14,7 +15,7 @@ public class MetalAlloy implements Serializable {
     private double bottomRightHeat;
 
 
-    public MetalAlloy(double topLeftHeat, double bottomRightHeat, double metal1ThermalConstant, double metal2ThermalConstant, double metal3ThermalConstant) {
+    public MetalAlloy(int numOfRows, double topLeftHeat, double bottomRightHeat, double metal1ThermalConstant, double metal2ThermalConstant, double metal3ThermalConstant) throws Exception {
         this.thermalConstants = new HashMap<>();
         thermalConstants.put("metal1", metal1ThermalConstant);
         thermalConstants.put("metal2", metal2ThermalConstant);
@@ -22,7 +23,7 @@ public class MetalAlloy implements Serializable {
         this.topLeftHeat = topLeftHeat;
         this.bottomRightHeat = bottomRightHeat;
 
-        int row = 50;
+        int row = numOfRows;
         int col = row * 4;
 
 
@@ -36,22 +37,43 @@ public class MetalAlloy implements Serializable {
         metalAlloySegments = new MetalAlloySegment[row][col];
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                Random random = new Random();
+                HashMap<String, Double> randomPercentsHM = getRandomPercents();
+                metalAlloySegments[i][j] = new MetalAlloySegment(randomPercentsHM.get("metal1"), randomPercentsHM.get("metal2"), randomPercentsHM.get("metal3"));
+//                metalAlloySegments[i][j] = new MetalAlloySegment(0.34,0.33,0.33);
+            }
+        }
 
-                // Generate a random number between 0.22 and 0.33
-                double min = 0.30;
-                double max = 0.40;
-//                double metal1Percent = min + (max - min) * random.nextDouble();
-//                double metal2Percent = min + (max - min) * random.nextDouble();
-//                double metal3Percent = 1 - metal1Percent - metal2Percent;
-//                metalAlloySegments[i][j] = new metalAlloy.MetalAlloySegment(metal1Percent, metal2Percent, metal3Percent);
-                metalAlloySegments[i][j] = new MetalAlloySegment(0.34,0.33,0.33);
+        for (MetalAlloySegment[] metalAlloySegment : metalAlloySegments) {
+            for (MetalAlloySegment metalAlloySeg : metalAlloySegment) {
+                for (Double value: metalAlloySeg.getMetalComposition().values()) {
+                    if (value > 0.43 || value < 0.23) {
+                        throw new Exception("Value large");
+                    }
+                }
             }
         }
 
         metalAlloyTemps[0][0] = this.topLeftHeat;
         metalAlloyTemps[metalAlloyTemps.length-1][metalAlloySegments[metalAlloyTemps.length-1].length-1] = this.bottomRightHeat;
 
+    }
+
+    public HashMap<String, Double> getRandomPercents() {
+        Random random = new Random();
+
+        double min = 0.23;
+        double max = 0.43;
+        double metal1Percent = min + (max - min) * random.nextDouble();
+        double metal2Percent = min + (max - min) * random.nextDouble();
+        double metal3Percent = 1 - metal1Percent - metal2Percent;
+
+        if (metal3Percent < 0.23 || metal3Percent > 0.43) { return getRandomPercents();}
+
+        HashMap<String, Double> percents = new HashMap<>();
+        percents.put("metal1", metal1Percent);
+        percents.put("metal2", metal2Percent);
+        percents.put("metal3", metal3Percent);
+        return percents;
     }
 
     public double calculateTemperatureAtRegion(int x, int y) {
@@ -80,6 +102,42 @@ public class MetalAlloy implements Serializable {
     }
 
 
+
+    public double[][] doOperationByRange(int startCol, int endCol) throws Exception {
+        if (startCol < 0 || endCol > this.metalAlloySegments[0].length) throw new IndexOutOfBoundsException("The startCol or the endCol should be between " + 0 + " and " + this.metalAlloySegments[0].length);
+        double[][] resultingArray = new double[metalAlloySegments.length][endCol-startCol];
+
+        if (startCol == 0) resultingArray[0][0] = this.topLeftHeat;
+        if (endCol == this.metalAlloySegments[0].length) {
+            resultingArray[resultingArray.length-1][resultingArray[0].length-1] = this.bottomRightHeat;
+        }
+
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        List<Future<Void>> futures = new ArrayList<>();
+
+        for (int i = 0; i < resultingArray.length; i++) {
+            final int row = i;
+            futures.add(executor.submit(() -> {
+                for (int j = 0; j < resultingArray[0].length; j++) {
+                    if ((row == 0 && j == 0 && startCol == 0) || (row == resultingArray.length - 1 && j == resultingArray[0].length - 1 && endCol == metalAlloySegments[0].length))
+                        continue;
+                    resultingArray[row][j] = calculateTemperatureAtRegion(row, startCol + j);
+                }
+                return null;
+            }));
+        }
+
+        // Wait for all tasks to finish
+        for (Future<Void> future : futures) {
+            future.get();  // Wait for the task to complete
+        }
+
+        executor.shutdown();
+
+        return resultingArray;
+    }
+
+
     public double[][] doOperation() {
 
         double[][] resultingArray = new double[metalAlloySegments.length][metalAlloySegments[0].length];
@@ -92,25 +150,6 @@ public class MetalAlloy implements Serializable {
                 resultingArray[i][j] = calculateTemperatureAtRegion(i, j);
             }
         }
-        return resultingArray;
-    }
-
-    public double[][] doOperationByRange(int startCol, int endCol) throws Exception {
-        if (startCol < 0 || endCol > this.metalAlloySegments[0].length) throw new IndexOutOfBoundsException("The startCol or the endCol should be between " + 0 + " and " + this.metalAlloySegments[0].length);
-        double[][] resultingArray = new double[metalAlloySegments.length][endCol-startCol];
-
-        if (startCol == 0) resultingArray[0][0] = this.topLeftHeat;
-        if (endCol == this.metalAlloySegments[0].length) {
-            resultingArray[resultingArray.length-1][resultingArray[0].length-1] = this.bottomRightHeat;
-        }
-        for (int i = 0; i < resultingArray.length; i++) {
-            for (int j = 0; j < resultingArray[0].length ; j++) {
-                if ((i == 0 && j == 0 && startCol == 0) || (i == resultingArray.length - 1 && j == resultingArray[0].length - 1 && endCol == metalAlloySegments[0].length))
-                    continue;
-                resultingArray[i][j] = calculateTemperatureAtRegion(i, startCol + j);
-            }
-        }
-
         return resultingArray;
     }
 
@@ -136,11 +175,11 @@ public class MetalAlloy implements Serializable {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        MetalAlloy metalTest = new MetalAlloy(100, 100, 0.75, 1.0,1.25);
-        MetalAlloy copy = metalTest.deepCopy();
-
-        System.out.println(metalTest);
-        System.out.println(copy);
+//        MetalAlloy metalTest = new MetalAlloy(100, 100, 0.75, 1.0,1.25);
+//        MetalAlloy copy = metalTest.deepCopy();
+//
+//        System.out.println(metalTest);
+//        System.out.println(copy);
 
 
 //        double[][] prev = null;

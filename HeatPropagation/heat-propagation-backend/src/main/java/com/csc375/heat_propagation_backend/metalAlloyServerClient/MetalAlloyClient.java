@@ -1,8 +1,11 @@
-package metalAlloyServer;
+package com.csc375.heat_propagation_backend.metalAlloyServerClient;
 
-import metalAlloy.MetalAlloy;
+import com.csc375.heat_propagation_backend.metalAlloy.MetalAlloy;
+import com.csc375.heat_propagation_backend.service.WebSocketService;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
@@ -11,11 +14,16 @@ public class MetalAlloyClient {
     private Socket clientSocket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private WebSocketService webSocketService;
+    private final double lower_factor = 0.99;
+    private final double higher_factor = 1.01;
 
-    public void startConnection(String ip, int port) throws IOException {
+    public void startConnection(String ip, int port, WebSocketService webSocketService) throws IOException {
         clientSocket = new Socket(ip, port);
         out = new ObjectOutputStream(clientSocket.getOutputStream());
         in = new ObjectInputStream(clientSocket.getInputStream());
+        this.webSocketService = webSocketService;
+
     }
 
     public CompletableFuture<double[][]> sendMessageAsync(MetalAlloy metalAlloy) throws IOException, ClassNotFoundException {
@@ -38,7 +46,8 @@ public class MetalAlloyClient {
         });
     }
 
-    public double[][] startHeating(MetalAlloy metalTest, int numOfIterations) throws Exception {
+
+    public void startHeating(MetalAlloy metalTest, int numOfIterations) throws Exception {
         int i = 0;
         while (i <= numOfIterations) {
 
@@ -61,19 +70,22 @@ public class MetalAlloyClient {
 
             CompletableFuture<double[][]> combinedFuture = serverResultFuture.thenCombine(localResultFuture, this::combine2DArrays);
 
-
             metalTest.setMetalAlloyTemps(combinedFuture.join());
 
-            if (i % 100 == 0 ) {
-                System.out.println("_----");
-                for (double[] row: combinedFuture.get()) {
+            if (i % 10 == 0) {
+                webSocketService.sendData(combinedFuture.get());
+            }
+
+            if (i % 1000 == 0) {
+                for (double[] row : combinedFuture.get()) {
                     System.out.println(Arrays.toString(row));
                 }
             }
 
             i++;
         }
-        Thread.sleep(1000);
+
+        Thread.sleep(1000); // Letting the server and client to process before ending
 
         if (in != null) {
             in.close();  // Close ObjectInputStream
@@ -84,20 +96,27 @@ public class MetalAlloyClient {
         if (clientSocket != null) {
             clientSocket.close();  // Close the Socket
         }
-        return null;
 
     }
 
     public double[][] combine2DArrays(double[][] array1, double[][] array2) {
         // Calculate the total number of rows
 
-        double[][] resultedArray = new double[array1.length][array1[0].length];
+        double[][] resultedArray = new double[array1.length][array1[0].length + array2[0].length]; // Adjust size to hold both arrays
         for (int i = 0; i < array1.length; i++) {
             double[] mergedRow = new double[array1[i].length + array2[i].length];
-            System.arraycopy(array1[i], 0, mergedRow, 0, array1[i].length);
+            for (int j = 0; j < array1[i].length; j++) {
+//                if (array1[i][j] > 0) {array1[i][j] *= lower_factor;}
+//                if (array1[i][j] < 0) {array1[i][j] *= higher_factor;}
+                mergedRow[j] = array1[i][j];
+            }
+            for (int j = 0; j < array2[i].length; j++) {
+//                if (array2[i][j] > 0) {array2[i][j] *= lower_factor;}
+//                if (array1[i][j] < 0) {array1[i][j] *= higher_factor;}
+                mergedRow[array1[i].length + j] = array2[i][j];
+            }
 
-            // Copy elements from the second array to the merged array
-            System.arraycopy(array2[i], 0, mergedRow, array1[i].length, array2[i].length);
+            // Store the merged row in the resulted array
             resultedArray[i] = mergedRow;
         }
 
