@@ -58,6 +58,8 @@ public class MetalAlloy implements Serializable {
 
     }
 
+
+
     public HashMap<String, Double> getRandomPercents() {
         Random random = new Random();
 
@@ -159,6 +161,14 @@ public class MetalAlloy implements Serializable {
 
     public void setMetalAlloyTemps(double[][] metalAlloyTemps) {
         this.metalAlloyTemps = metalAlloyTemps;
+    }
+
+    public MetalAlloySegment[][] getMetalAlloySegments() {
+        return metalAlloySegments;
+    }
+
+    public HashMap<String, Double> getThermalConstants() {
+        return thermalConstants;
     }
 
     public MetalAlloy deepCopy() throws IOException, ClassNotFoundException {

@@ -39,7 +39,7 @@ public class WebSocketService {
 
         metalAlloyClient.startConnection(ip, 4444, this);
 
-        metalAlloyClient.startHeating(metalTest, 100000);
+        metalAlloyClient.startHeating(metalTest, data.get("numOfIterations").intValue());
     }
 
     public synchronized void sendData(double[][] metalAlloyData) {

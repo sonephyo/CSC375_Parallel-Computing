@@ -1,6 +1,7 @@
 package com.csc375.heat_propagation_backend.metalAlloyServerClient;
 
 import com.csc375.heat_propagation_backend.metalAlloy.MetalAlloy;
+import com.csc375.heat_propagation_backend.metalAlloy.MetalAlloyPartition;
 
 
 import java.io.EOFException;
@@ -68,10 +69,10 @@ public class MetalAlloyServer {
     public void metalAlloyOperation(ObjectOutputStream out, ObjectInputStream in) throws Exception {
         try {
 
-            MetalAlloy metalAlloy = (MetalAlloy) in.readObject();
+            MetalAlloyPartition metalAlloyPartition = (MetalAlloyPartition) in.readObject();
 
-            assert metalAlloy != null;
-            double[][] operationResultByRange = metalAlloy.doOperationByRange(0, metalAlloy.getMetalAlloyTemps()[0].length / 2);
+            assert metalAlloyPartition != null;
+            double[][] operationResultByRange = metalAlloyPartition.doPartitionOperation();
 
             // Send sorted array back to client
             out.writeObject(operationResultByRange);
@@ -83,6 +84,23 @@ public class MetalAlloyServer {
             clientSocket.close();
         }
     }
+
+//    public void metalAlloyOperation2DArray(ObjectOutputStream out, ObjectInputStream in) throws Exception {
+//        try {
+//
+//            double[][] operationResultBy2DArray = (double[][]) in.readObject();
+//            assert operationResultBy2DArray != null;
+//            double[][] operationResultByRange = MetalAlloy.doOperationBy2D(operationResultBy2DArray);
+//
+//            out.writeObject(operationResultByRange);
+//        } catch (EOFException e) {
+//            System.out.println("Client disconnected. Closing Connection");
+//            clientSocket.close();
+//        } catch (IOException | ClassNotFoundException e) {
+//            System.err.println("Error closing client socket: " + e.getMessage());
+//            clientSocket.close();
+//        }
+//    }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         MetalAlloyServer server = new MetalAlloyServer();
