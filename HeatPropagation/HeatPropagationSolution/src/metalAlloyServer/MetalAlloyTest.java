@@ -9,28 +9,21 @@ import metalAlloy.MetalAlloy;
 
 public class MetalAlloyTest {
 
-    private static final String ip = "localhost";
-
-    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-        MetalAlloyClient metalAlloyClient = new MetalAlloyClient();
-        metalAlloyClient.startConnection(ip, 4444);
+    public static void main(String[] args) throws Exception {
 
         MetalAlloy metalTest = new MetalAlloy(100, 100, 0.75, 1.0,1.25);
 
-        CompletableFuture<MetalAlloy> metalResult = metalAlloyClient.sendMessageAsync(metalTest);
 
-        metalResult.thenAccept(result -> {
-            for (double[] metalrow : result.getMetalAlloyTemps())  {
-                System.out.println(Arrays.toString(metalrow));
-            }
-        });
+//        String ip = "129.3.20.1";
+        String ip = "localhost";
+        MetalAlloyClient metalAlloyClient = new MetalAlloyClient();
 
-//        for (double[] metalrow : metalTest.getMetalAlloyTemps())  {
-//            System.out.println(Arrays.toString(metalrow));
-//        }
+        metalAlloyClient.startConnection(ip, 4444);
 
-        metalResult.join();
-        System.out.println("Going to end the conection");
-        metalAlloyClient.stopConnection();
+        metalAlloyClient.startHeating(metalTest, 1000);
+
+
+
+
     }
 }

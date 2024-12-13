@@ -5,7 +5,6 @@ import metalAlloy.MetalAlloy;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 
 public class MetalAlloyServer {
 
@@ -18,31 +17,61 @@ public class MetalAlloyServer {
 
         System.out.println("Connecting server at port number : " + port);
         try (ServerSocket serverSocket = new ServerSocket(port)) {
+
             while (true) {
                 clientSocket = serverSocket.accept();
-                out = new ObjectOutputStream(clientSocket.getOutputStream());
-                in = new ObjectInputStream(clientSocket.getInputStream());
+                System.out.println("Client connected: " + clientSocket.getInetAddress());
 
-                metalAlloyOperation(out, in);
+                new Thread(() -> {
+                    try (ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+                         ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());) {
+                        while (!clientSocket.isClosed()) {
+                            metalAlloyOperation(out, in);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    } finally {
+                        try {
+                            if (in != null) {
+                                in.close();
+                            }
+                            if (out != null) {
+                                out.close();
+                            }
 
-                in.close();
-                out.close();
-                clientSocket.close();
+                            if (clientSocket != null && !clientSocket.isClosed()) {
+                                clientSocket.close(); // Close socket after client disconnects
+                            }
+                        } catch (IOException e) {
+                            System.err.println("Error closing client socket: " + e.getMessage());
+                        }
+                    }
+                }).start();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+
         }
 
     }
 
-    public void metalAlloyOperation(ObjectOutputStream out, ObjectInputStream in) throws IOException, ClassNotFoundException {
+    public void metalAlloyOperation(ObjectOutputStream out, ObjectInputStream in) throws Exception {
+        try {
 
-        MetalAlloy metalAlloy = (MetalAlloy) in.readObject();
-        System.out.println("Got the metalAlloy, returning it now");
-        metalAlloy.doOperation();
+            MetalAlloy metalAlloy = (MetalAlloy) in.readObject();
 
-        // Send sorted array back to client
-        out.writeObject(metalAlloy);
+            assert metalAlloy != null;
+            double[][] operationResultByRange = metalAlloy.doOperationByRange(0, metalAlloy.getMetalAlloyTemps()[0].length / 2);
+
+            // Send sorted array back to client
+            out.writeObject(operationResultByRange);
+        } catch (EOFException e) {
+            System.out.println("Client disconnected. Closing Connection");
+            clientSocket.close();
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error closing client socket: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
