@@ -52,7 +52,7 @@ export const SendingMessages = ({ operationStatus }: { operationStatus: string }
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-semibold mb-6">Send Data for Heatmap Calculation</h2>
+      <h2 className="text-2xl font-semibold mb-6">Distributed System for Parallelized Application Processing (Heat Propagation)</h2>
       <form className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700">Number of Rows:</label>

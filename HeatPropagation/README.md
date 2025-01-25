@@ -1,6 +1,9 @@
-# Distributed System for Parallelized Application Processing (Heat Progpagation)
+# Distributed System for Parallelized Application Processing (Heat Propagation)
 
 This project is designed to showcase a distributed system built to process intensive applications across multiple machines. By using various tools and technologies such as React, TailwindCSS, Spring, WebSockets, and SIMD (Single Instruction, Multiple Data), the project efficiently allocates tasks to multiple university servers, combines results, and displays them on the frontend.
+
+## Video Demo
+<div style="position: relative; padding-bottom: 64.90384615384616%; height: 0;"><iframe src="https://www.loom.com/embed/743c0009f2aa431c8602f75161d9881d?sid=dedc257e-f06b-49a2-ac17-0fdaa04d5da9" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
 
 ## Overview
 

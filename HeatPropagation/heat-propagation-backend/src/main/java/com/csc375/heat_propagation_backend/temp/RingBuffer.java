@@ -1,5 +1,9 @@
 package com.csc375.heat_propagation_backend.temp;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class RingBuffer {
     private Object[] buffer;
     private int head = 0;
