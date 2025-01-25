@@ -55,12 +55,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.jcuda/jcuda -->
-		<dependency>
-			<groupId>org.jcuda</groupId>
-			<artifactId>jcuda</artifactId>
-			<version>12.6.0</version>
-		</dependency>
 
 	</dependencies>
 

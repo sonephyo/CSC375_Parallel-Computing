@@ -1,47 +1,49 @@
 package com.csc375.heat_propagation_backend.temp;
 
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveTask;
+public class RingBuffer {
+    private Object[] buffer;
+    private int head = 0;
+    private int tail = 0;
+    private int capacity;
+    private Lock lock = new ReentrantLock();
+    private Condition notEmpty = lock.newCondition();
+    private Condition notFull = lock.newCondition();
 
-public class test {
-
-    public static int minAbs(int[] array) {
-        if (array == null || array.length == 0) return Integer.MAX_VALUE;
-        ForkJoinPool pool = new ForkJoinPool();
-        return pool.invoke(new RecurT(array, 0, array.length));
+    public RingBuffer(int capacity) {
+        this.capacity = capacity;
+        this.buffer = new Object[capacity];
     }
 
-    private static class RecurT extends RecursiveTask<Integer> {
-        private final int[] array;
-        private final int start;
-        private final int end;
-
-        RecurT(int[] array, int start, int end) {
-            this.array = array;
-            this.start = start;
-            this.end = end;
-        }
-
-        @Override
-        protected Integer compute() {
-            if (end - start <= 100) {
-                int minAbsValue = Integer.MAX_VALUE;
-                for (int i = start; i < end; i++) {
-                    minAbsValue = Math.min(minAbsValue, Math.abs(array[i]));
-                }
-                return minAbsValue;
+    public void put(Object x) throws InterruptedException {
+        lock.lock();
+        try {
+            while ((tail + 1) % capacity == head) {
+                notFull.await();
             }
-            int mid = start + (end - start) / 2;
-            RecurT lt = new RecurT(array, start, mid);
-            RecurT rt = new RecurT(array, mid, end);
-            lt.fork();
-            return Math.min(rt.compute(), lt.join());
+            buffer[tail] = x;
+            tail = (tail + 1) % capacity;
+            if (tail == head) {
+                head = (head + 1) % capacity;
+            }
+            notEmpty.signal();
+        } finally {
+            lock.unlock();
         }
+    }
 
-        public static void main(String[] args) {
-            int[] array = {34, 262, 234, 223, 23523};
-            System.out.println(minAbs(array));
-            System.out.println(minAbs(new int[]{}));
+    public Object take() throws InterruptedException {
+        lock.lock();
+        try {
+            while (head == tail) {
+                notEmpty.await();
+            }
+            Object item = buffer[head];
+            head = (head + 1) % capacity;
+            notFull.signal();
+            return item;
+        } finally {
+            lock.unlock();
         }
     }
 }
+
